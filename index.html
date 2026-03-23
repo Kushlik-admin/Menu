@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KUSHLIK DELIVERY</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root { --main-color: #ffcc00; --bg-color: #f2f2f2; --card-bg: #fff; --accent: #d35400; }
+        body { font-family: sans-serif; background-color: var(--bg-color); margin: 0; padding: 10px; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
+        .header { background: #fff; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 4px solid var(--main-color); }
+        .promo-banner { background: linear-gradient(135deg, #2d3436, #000); color: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 3px solid var(--main-color); pointer-events: none; }
+        .section-title { font-size: 0.85rem; font-weight: bold; margin: 20px 0 10px; color: #fff; text-transform: uppercase; padding: 8px 12px; border-radius: 8px; display: inline-block; width: auto; }
+        
+        /* Стили для разных ресторанов */
+        .market-title { background: #27ae60; }
+        .pharmacy-title { background: #e74c3c; }
+        .blue-title { background: #2980b9; } 
+        .burger-title { background: #333; } 
+        .gril-title { background: #c0392b; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
+        .title { font-weight: bold; margin: 5px 0; font-size: 0.8rem; min-height: 35px; color: #2d3436; }
+        .price { color: #27ae60; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+        .btn-add { background: var(--main-color); border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 15px 0; display: none; justify-content: center; box-shadow: 0 -4 -15px rgba(0,0,0,0.1); z-index: 1000; }
+        .btn-order { background: #27ae60; color: #fff; border: none; width: 90%; padding: 16px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header"><h1>KUSHLIK DELIVERY</h1></div>
+
+    <div class="promo-banner"><h2>🇺🇿 MILLIY TAOMLAR</h2><div style="font-size: 1.2rem; font-weight: bold;">1-APREL OCHILADI!</div></div>
+
+    <div class="section-title market-title">🛒 KUSHLIK MARKET</div>
+    <div class="grid">
+        <div class="card"><div class="title">Oziq-ovqat va ichimliklar</div><div class="price">Mavjud ✅</div></div>
+    </div>
+
+    <div class="section-title pharmacy-title">💊 DORXONA (24/7)</div>
+    <div class="grid">
+        <div class="card"><div class="title">Dori-darmonlar</div><div class="price">Mavjud ✅</div></div>
+    </div>
+
+    <div class="section-title blue-title">🌯 TIM LAVASH</div>
+    <div class="grid">
+        <div class="card"><div class="title">Lavash Big</div><div class="price">40 000</div><button class="btn-add" onclick="addToCart('Lavash Big', 40000)">Savatga</button></div>
+        <div class="card"><div class="title">Klab Sendvich</div><div class="price">42 000</div><button class="btn-add" onclick="addToCart('Klab Sendvich', 42000)">Savatga</button></div>
+    </div>
+
+    <div class="section-title burger-title">🍔 BURGER PRO</div>
+    <div class="grid">
+        <div class="card"><div class="title">Big Burger</div><div class="price">45 000</div><button class="btn-add" onclick="addToCart('Big Burger', 45000)">Savatga</button></div>
+        <div class="card"><div class="title">Kartoshka Fri</div><div class="price">24 000</div><button class="btn-add" onclick="addToCart('Kartoshka Fri', 24000)">Savatga</button></div>
+    </div>
+
+    <div class="section-title" style="background: #d35400;">🍢 AKAXON</div>
+    <div class="grid">
+        <div class="card"><div class="title">Qiyma Shashlik</div><div class="price">12 000</div><button class="btn-add" onclick="addToCart('Qiyma Shashlik', 12000)">Savatga</button></div>
+        <div class="card"><div class="title">Goshtli Somsa</div><div class="price">8 000</div><button class="btn-add" onclick="addToCart('Goshtli Somsa', 8000)">Savatga</button></div>
+    </div>
+
+    <div class="section-title gril-title">🔥 GRIL & GUMA</div>
+    <div class="grid">
+        <div class="card"><div class="title">Kotta Grill</div><div class="price">60 000</div><button class="btn-add" onclick="addToCart('Kotta Grill', 60000)">Savatga</button></div>
+        <div class="card"><div class="title">Guma</div><div class="price">5 000</div><button class="btn-add" onclick="addToCart('Guma', 5000)">Savatga</button></div>
+        <div class="card"><div class="title">Piroshki</div><div class="price">4 000</div><button class="btn-add" onclick="addToCart('Piroshki', 4000)">Savatga</button></div>
+    </div>
+
+    <div class="footer" id="footer"><button class="btn-order" onclick="finishOrder()">BUYURTMANI TASDIQLASH 🛒</button></div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        let cart = [];
+        function addToCart(name, price) {
+            cart.push({name: name, price: price});
+            tg.HapticFeedback.impactOccurred('medium');
+            document.getElementById('footer').style.display = 'flex';
+        }
+        function finishOrder() {
+            tg.sendData(JSON.stringify(cart));
+            tg.close();
+        }
+    </script>
+</body>
+</html>
