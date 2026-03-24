@@ -17,6 +17,7 @@
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
         .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; }
         .price-tag { color: #2e7d32; font-weight: bold; font-size: 0.9rem; }
+        .category-title { background: #eee; padding: 5px 10px; margin-top: 15px; border-radius: 5px; font-size: 0.9rem; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -26,7 +27,7 @@
     <div class="main-grid">
         <div class="card closed" onclick="alert('1-apreldan ish boshlaymiz!')">🇺🇿<br><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
         <div class="card" onclick="showMenu('burger')">🍔<br><b>BURGER PRO</b></div>
-        <div class="card" onclick="showMenu('guma')">🥐<br><b>GUMA PIRASHKI</b></div>
+        <div class="card" onclick="showMenu('guma')">🥐<br><b>GUMA & PIRASHKI</b></div>
         <div class="card" onclick="showMenu('grill')">🍗<br><b>GRILL</b></div>
         <div class="card" onclick="showMenu('somsa')">🍢<br><b>AKAHON SOMSA</b></div>
         <div class="card" onclick="showMenu('tim')">🌯<br><b>TIM LAVASH</b></div>
@@ -39,34 +40,48 @@
 </div>
 
 <div class="footer" id="footer">
-    <button class="order-confirm" onclick="finishOrder()">BUYURTMANI TASDIQLASH</button>
+    <button class="order-confirm" onclick="finishOrder()">TASDIQLASH</button>
 </div>
 
 <script>
     let tg = window.Telegram.WebApp;
     tg.expand();
     let cart = [];
+    let totalPrice = 0;
 
     const data = {
         'guma': [
-            {n:'Guma', p:5000}, {n:'Kartoshkali', p:4000}, {n:'Sosiskali', p:5000}, {n:'Cheburek', p:8000}
+            {n:'KARTOSHKALI', p:4000}, {n:'GUMA', p:5000}, {n:'SASISKALI', p:5000}, 
+            {n:'GOSHLI', p:5000}, {n:'CHEBUREK', p:8000}, {n:'KAROMLI', p:4000}, 
+            {n:'TUHM KÕK PIYOZ BILAN', p:5000}
         ],
         'burger': [
-            {n:'Big Burger', p:45000}, {n:'Chizburger', p:40000}, {n:'Lavash Big', p:48000}, {n:'Fri', p:15000},
-            {n:'Hot-dog Qirollik', p:22000}, {n:'Doner Box', p:50000}, {n:'Klab Sendvich', p:42000}
+            {n:'Big Burger', p:45000}, {n:'Gamburger', p:35000}, {n:'Chizburger', p:40000}, 
+            {n:'Double Chizburger', p:55000}, {n:'Lavash Big (Mol)', p:48000}, {n:'Lavash Big (Tovuq)', p:45000},
+            {n:'Doner Box', p:50000}, {n:'Klab Sendvich', p:42000}, {n:'Fri', p:15000}
         ],
         'grill': [
-            {n:'Kota Grill', p:60000}, {n:'Ortancha Grill', p:55000}, {n:'KFS 1kg', p:100000}
+            {n:'KOTA GRILL', p:60000}, {n:'ORTANCHA GRIL', p:55000}, 
+            {n:'KICHKINA GRIL', p:50000}, {n:'KFS 1 KG', p:100000}
         ],
         'somsa': [
-            {n:'Qiyma Shashlik', p:8000}, {n:'Tovuq Shashlik', p:8000}, {n:'Jigar', p:8000}, 
-            {n:'Baliq Shashlik', p:10000}, {n:'Mol Jaz', p:15000}, {n:'Qoy Jaz', p:16000},
-            {n:'Qoy Somsa', p:18000}, {n:'Mol Somsa', p:13000}, {n:'Kartoshkali Somsa', p:5000}
+            {cat: 'SHASHLIK'},
+            {n:'QIYMA', p:8000}, {n:'TOVQ', p:8000}, {n:'JIGAR', p:8000}, 
+            {n:'BALIQ', p:10000}, {n:'MOL JAZ', p:15000}, {n:'QÕY JAZ', p:16000},
+            {cat: 'SOMSA'},
+            {n:'QÕY GOSHLI', p:18000}, {n:'MOL GOSHLI', p:13000}, 
+            {n:'TOVUQ GOSHLI', p:8000}, {n:'KARTOSHKALI', p:5000}
         ],
         'tim': [
-            {n:'Lavash Big', p:35000}, {n:'Mini Lavash', p:30000}, {n:'Sir Lavash', p:37000}, 
-            {n:'Donar Big', p:32000}, {n:'Xagi', p:35000}, {n:'Xudog Super', p:25000},
-            {n:'Kola/Pepsi 1.5L', p:17000}, {n:'Energy Flesh', p:13000}
+            {n:'LAVASH BIG', p:35000}, {n:'MINI LAVASH', p:30000}, {n:'SIR LAVASH', p:37000}, 
+            {n:'DONAR BIG', p:32000}, {n:'MEGA DONAR', p:42000}, {n:'XAGI', p:35000},
+            {n:'MINI XAGI', p:30000}, {n:'Xodog super', p:25000}, {n:'MINI XUDOG', p:15000},
+            {n:'MEGA XUDOG', p:29000}, {n:'QAZLI XUDOG', p:38000}, {n:'KLAB SENDVICH', p:45000},
+            {cat: 'ICHIMLIKLAR'},
+            {n:'0.5L Kola/Pepsi/Fanta', p:8000}, {n:'1L Kola/Pepsi/Fanta', p:13000}, 
+            {n:'1.5L Kola/Pepsi/Fanta', p:17000}, {n:'2L Kola/Pepsi/Fanta', p:23000},
+            {n:'1L SOK', p:15000}, {n:'1L FuseTea/Lipton', p:13000},
+            {n:'Gorilla', p:14000}, {n:'18+', p:14000}, {n:'Flesh', p:13000}
         ]
     };
 
@@ -75,30 +90,39 @@
         document.getElementById('menu-page').style.display = 'block';
         let container = document.getElementById('menu-content');
         let html = `<h3>${id.toUpperCase()}</h3>`;
-
+        
         data[id].forEach(item => {
-            html += `<div class="food-item">
-                <div><b>${item.n}</b><br><span class="price-tag">${item.p.toLocaleString()} so'm</span></div>
-                <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
-            </div>`;
+            if(item.cat) {
+                html += `<div class="category-title">${item.cat}</div>`;
+            } else {
+                html += `<div class="food-item">
+                    <div><b>${item.n}</b><br><span class="price-tag">${item.p.toLocaleString()} so'm</span></div>
+                    <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
+                </div>`;
+            }
         });
         container.innerHTML = html;
     }
 
     function add(name, price) {
         cart.push({name: name, price: price});
+        totalPrice += price;
         document.getElementById('footer').style.display = 'block';
+        document.querySelector('.order-confirm').innerText = `TASDIQLASH: ${totalPrice.toLocaleString()} so'm`;
         tg.HapticFeedback.notificationOccurred('success');
     }
 
     function goBack() {
         document.getElementById('main-page').style.display = 'grid';
         document.getElementById('menu-page').style.display = 'none';
+        cart = [];
+        totalPrice = 0;
+        document.getElementById('footer').style.display = 'none';
     }
 
     function finishOrder() {
         if (cart.length > 0) {
-            tg.sendData(JSON.stringify(cart));
+            tg.sendData(JSON.stringify({items: cart, total: totalPrice}));
             tg.close();
         }
     }
