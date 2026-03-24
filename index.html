@@ -6,84 +6,76 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --main-color: #ffcc00; --bg-color: #f2f2f2; --card-bg: #fff; --accent: #d35400; }
-        body { font-family: sans-serif; background-color: var(--bg-color); margin: 0; padding: 10px; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
-        .header { background: #fff; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 4px solid var(--main-color); }
-        .promo-banner { background: linear-gradient(135deg, #2d3436, #000); color: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 3px solid var(--main-color); pointer-events: none; }
-        .section-title { font-size: 0.85rem; font-weight: bold; margin: 20px 0 10px; color: #fff; text-transform: uppercase; padding: 8px 12px; border-radius: 8px; display: inline-block; width: auto; }
-        
-        /* Стили для разных ресторанов */
-        .market-title { background: #27ae60; }
-        .pharmacy-title { background: #e74c3c; }
-        .blue-title { background: #2980b9; } 
-        .burger-title { background: #333; } 
-        .gril-title { background: #c0392b; }
-
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        .card { background: var(--card-bg); border-radius: 12px; padding: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
-        .title { font-weight: bold; margin: 5px 0; font-size: 0.8rem; min-height: 35px; color: #2d3436; }
-        .price { color: #27ae60; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
-        .btn-add { background: var(--main-color); border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 15px 0; display: none; justify-content: center; box-shadow: 0 -4 -15px rgba(0,0,0,0.1); z-index: 1000; }
-        .btn-order { background: #27ae60; color: #fff; border: none; width: 90%; padding: 16px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; }
+        body { font-family: sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
+        .promo-banner { background: linear-gradient(135deg, #ffc107, #ff9800); color: black; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 2px dashed #d35400; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid #ddd; }
+        .card.closed { background: #e0e0e0; opacity: 0.8; }
+        .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .add-btn { background: #ffc107; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
+        .call-btn { display: block; background: #2e7d32; color: white; text-align: center; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
-    <div class="header"><h1>KUSHLIK DELIVERY</h1></div>
+<div class="promo-banner">🎁 AKSIYA: Har 6-chi yetkazib berish BEPUL!</div>
 
-    <div class="promo-banner"><h2>🇺🇿 MILLIY TAOMLAR</h2><div style="font-size: 1.2rem; font-weight: bold;">1-APREL OCHILADI!</div></div>
+<div id="main-grid" class="main-grid">
+    <div class="card closed" onclick="alert('1-apreldan ish boshlaymiz!')">🍱<br><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
+    <div class="card" onclick="showMenu('burger', true)">🍔<br><b>BURGER PRO</b></div>
+    <div class="card" onclick="showMenu('guma', true)">🥐<br><b>GUMA PIRASHKI</b></div>
+    <div class="card" onclick="showMenu('gril', true)">🍗<br><b>GRIL</b></div>
+    <div class="card" onclick="showMenu('somsa', true)">🥟<br><b>AKAXON SOMSA</b></div>
+    <div class="card" onclick="showMenu('lavash', true)">🌯<br><b>TIM LAVASH</b></div>
+    <div class="card" style="background:#e8f5e9" onclick="showMenu('market', false)">🛒<br><b>MARKET</b></div>
+    <div class="card" style="background:#ffebee" onclick="showMenu('dorxona', false)">💊<br><b>DORXONA</b></div>
+</div>
 
-    <div class="section-title market-title">🛒 KUSHLIK MARKET</div>
-    <div class="grid">
-        <div class="card"><div class="title">Oziq-ovqat va ichimliklar</div><div class="price">Mavjud ✅</div></div>
-    </div>
+<div id="menu-page" class="menu-page">
+    <button onclick="goBack()" style="padding:8px; margin-bottom:10px;">⬅️ Orqaga</button>
+    <div id="menu-content"></div>
+</div>
 
-    <div class="section-title pharmacy-title">💊 DORXONA (24/7)</div>
-    <div class="grid">
-        <div class="card"><div class="title">Dori-darmonlar</div><div class="price">Mavjud ✅</div></div>
-    </div>
+<div class="footer" id="footer"><button class="order-confirm" onclick="finishOrder()">BUYURTMANI TASDIQLASH 🛒</button></div>
 
-    <div class="section-title blue-title">🌯 TIM LAVASH</div>
-    <div class="grid">
-        <div class="card"><div class="title">Lavash Big</div><div class="price">40 000</div><button class="btn-add" onclick="addToCart('Lavash Big', 40000)">Savatga</button></div>
-        <div class="card"><div class="title">Klab Sendvich</div><div class="price">42 000</div><button class="btn-add" onclick="addToCart('Klab Sendvich', 42000)">Savatga</button></div>
-    </div>
+<script>
+    let tg = window.Telegram.WebApp;
+    let cart = [];
+    const data = {
+        'burger': ['Big Burger', 'Cheese Burger', 'Fri'],
+        'guma': ['Guma go\'shtli', 'Piroshki'],
+        'gril': ['Butun Gril', 'Yarim Gril'],
+        'somsa': ['Tandir Somsa', 'Kosa Somsa', 'Barra Somsa'],
+        'lavash': ['Lavash Big', 'Klab Sendvich'],
+        'market': 'call', 'dorxona': 'call'
+    };
 
-    <div class="section-title burger-title">🍔 BURGER PRO</div>
-    <div class="grid">
-        <div class="card"><div class="title">Big Burger</div><div class="price">45 000</div><button class="btn-add" onclick="addToCart('Big Burger', 45000)">Savatga</button></div>
-        <div class="card"><div class="title">Kartoshka Fri</div><div class="price">24 000</div><button class="btn-add" onclick="addToCart('Kartoshka Fri', 24000)">Savatga</button></div>
-    </div>
-
-    <div class="section-title" style="background: #d35400;">🍢 AKAXON</div>
-    <div class="grid">
-        <div class="card"><div class="title">Qiyma Shashlik</div><div class="price">12 000</div><button class="btn-add" onclick="addToCart('Qiyma Shashlik', 12000)">Savatga</button></div>
-        <div class="card"><div class="title">Goshtli Somsa</div><div class="price">8 000</div><button class="btn-add" onclick="addToCart('Goshtli Somsa', 8000)">Savatga</button></div>
-    </div>
-
-    <div class="section-title gril-title">🔥 GRIL & GUMA</div>
-    <div class="grid">
-        <div class="card"><div class="title">Kotta Grill</div><div class="price">60 000</div><button class="btn-add" onclick="addToCart('Kotta Grill', 60000)">Savatga</button></div>
-        <div class="card"><div class="title">Guma</div><div class="price">5 000</div><button class="btn-add" onclick="addToCart('Guma', 5000)">Savatga</button></div>
-        <div class="card"><div class="title">Piroshki</div><div class="price">4 000</div><button class="btn-add" onclick="addToCart('Piroshki', 4000)">Savatga</button></div>
-    </div>
-
-    <div class="footer" id="footer"><button class="btn-order" onclick="finishOrder()">BUYURTMANI TASDIQLASH 🛒</button></div>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        let cart = [];
-        function addToCart(name, price) {
-            cart.push({name: name, price: price});
-            tg.HapticFeedback.impactOccurred('medium');
-            document.getElementById('footer').style.display = 'flex';
+    function showMenu(id, isRest) {
+        document.getElementById('main-grid').style.display = 'none';
+        document.getElementById('menu-page').style.display = 'block';
+        let html = `<h3>${id.toUpperCase()}</h3>`;
+        if(isRest) {
+            data[id].forEach(item => {
+                html += `<div class="food-item"><span>${item}</span><button class="add-btn" onclick="add('${item}')">Savatga</button></div>`;
+            });
+        } else {
+            html += `<p>Buyurtma uchun qo'ng'iroq qiling:</p><a href="tel:+998901234567" class="call-btn">📞 Qo'ng'iroq qilish</a>`;
         }
-        function finishOrder() {
-            tg.sendData(JSON.stringify(cart));
-            tg.close();
-        }
-    </script>
+        document.getElementById('menu-content').innerHTML = html;
+    }
+
+    function add(name) {
+        cart.push({name: name});
+        document.getElementById('footer').style.display = 'block';
+        tg.HapticFeedback.notificationOccurred('success');
+    }
+
+    function finishOrder() { tg.sendData(JSON.stringify(cart)); }
+    function goBack() { document.getElementById('main-grid').style.display = 'grid'; document.getElementById('menu-page').style.display = 'none'; document.getElementById('footer').style.display = 'none'; cart = []; }
+    tg.expand();
+</script>
 </body>
 </html>
