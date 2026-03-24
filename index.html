@@ -6,61 +6,54 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 10px; padding-bottom: 100px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 10px; padding-bottom: 100px; -webkit-tap-highlight-color: transparent; }
         
-        /* Баннер Акции */
         .promo { 
             background: linear-gradient(135deg, #ff9800, #f39c12); color: white; 
             padding: 12px; border-radius: 15px; text-align: center; margin-bottom: 15px;
-            font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 0.9rem;
         }
 
-        /* Сетка категорий (2 в ряд) */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* Стили КАРТОЧЕК с фото */
+        /* КАРТОЧКИ С ФОТО */
         .card { 
             position: relative; height: 140px; border-radius: 20px; 
             overflow: hidden; display: flex; align-items: center; 
             justify-content: center; text-align: center;
             background-size: cover; background-position: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 2px solid white;
-            cursor: pointer;
         }
 
-        /* Затемнение, чтобы текст был виден */
         .card::after {
             content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.4); z-index: 1;
         }
 
-        /* Текст на карточках */
         .card b { 
             position: relative; z-index: 2; color: white; 
-            font-size: 1rem; text-transform: uppercase;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
-            letter-spacing: 0.5px;
+            font-size: 0.9rem; text-transform: uppercase;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.9); line-height: 1.2;
         }
 
-        /* ФОТОГРАФИИ ДЛЯ КАЖДОЙ КАТЕГОРИИ (используем Unsplash) */
-        #c-burger { background-image: url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500'); }
-        #c-guma { background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg?w=500'); }
-        #c-grill { background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=500'); }
-        
-        /* НОВЫЕ ФОТО ДЛЯ ВЫДЕЛЕННЫХ КАТЕГОРИЙ */
-        #c-somsa { background-image: url('https://images.unsplash.com/photo-1603362115995-95021f70eebe?q=80&w=500'); } /* Сомса и Шашлык */
-        #c-tim { background-image: url('https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?q=80&w=500'); }  /* Лаваш */
-        #c-milliy { background-image: url('https://images.unsplash.com/photo-1626509653299-4ee43087d677?q=80&w=500'); } /* Плов */
+        /* ВСЕ ФОТОГРАФИИ ДЛЯ КАТЕГОРИЙ */
+        #c-burger { background-image: url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500'); }
+        #c-guma { background-image: url('https://img.freepik.com/free-photo/delicious-fried-meat-pies-tasty-chebureks_144627-25145.jpg?w=500'); }
+        #c-grill { background-image: url('https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500'); }
+        #c-somsa { background-image: url('https://images.unsplash.com/photo-1603362115995-95021f70eebe?w=500'); }
+        #c-tim { background-image: url('https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?w=500'); }
+        #c-milliy { background-image: url('https://images.unsplash.com/photo-1626509653299-4ee43087d677?w=500'); }
 
-        /* Стили страницы меню (при открытии) */
-        .menu-page { display: none; background: white; border-radius: 25px 25px 0 0; padding: 20px; min-height: 85vh; }
+        /* Меню внутри */
+        .menu-page { display: none; background: white; border-radius: 25px 25px 0 0; padding: 15px; min-height: 90vh; }
         .item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .i-img { width: 60px; height: 60px; border-radius: 12px; margin-right: 12px; background-size: cover; background-position: center; background-color: #f8f8f8; }
+        .i-img { width: 65px; height: 65px; border-radius: 12px; margin-right: 12px; background-size: cover; background-position: center; background-color: #f8f8f8; flex-shrink: 0; }
         .add { background: #ff9800; color: white; border: none; width: 40px; height: 40px; border-radius: 12px; font-size: 1.5rem; cursor: pointer; }
 
-        /* Футер (Кнопка подтверждения) */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 999; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000; }
         .btn-confirm { background: #27ae60; color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; }
+        
+        .back-btn { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 12px; border: none; background: #eee; font-weight: bold; color: #555; }
     </style>
 </head>
 <body>
@@ -78,7 +71,7 @@
 </div>
 
 <div id="menu" class="menu-page">
-    <button onclick="back()" style="width:100%; padding:12px; margin-bottom:20px; border-radius:12px; border:none; background:#eee; font-weight:bold;">⬅️ ORQAGA</button>
+    <button class="back-btn" onclick="back()">⬅️ ORQAGA</button>
     <div id="content"></div>
 </div>
 
@@ -92,35 +85,41 @@
     let cart = [];
     let total = 0;
 
-    // Ссылки на иконки еды внутри меню
+    // Фотографии для каждого блюда внутри (подобрал под твои названия)
     const foodPics = {
-        'Big Burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100',
-        'QIYMA': 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=100',
-        'KOTA GRILL': 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=100',
-        'LAVASH BIG': 'https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?w=100'
+        'Big Burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150',
+        'Gamburger': 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=150',
+        'Chizburger': 'https://images.unsplash.com/photo-1512152272829-e3139592d56f?w=150',
+        'Fri': 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=150',
+        'GUMA': 'https://img.freepik.com/free-photo/traditional-uzbek-pastry-somsa_144627-44026.jpg?w=150',
+        'CHEBUREK': 'https://img.freepik.com/free-photo/delicious-fried-meat-pies-tasty-chebureks_144627-25145.jpg?w=150',
+        'KOTA GRILL': 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=150',
+        'QIYMA': 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=150',
+        'QÕY JAZ': 'https://images.unsplash.com/photo-1603362115995-95021f70eebe?w=150',
+        'LAVASH BIG': 'https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?w=150',
+        'Palov': 'https://images.unsplash.com/photo-1626509653299-4ee43087d677?w=150'
     };
 
-    // Данные меню (цены)
     const data = {
-        'burger': [{n:'Big Burger', p:45000}, {n:'Lavash Big (Mol)', p:48000}],
-        'guma': [{n:'GUMA', p:5000}, {n:'CHEBUREK', p:8000}],
+        'burger': [{n:'Big Burger', p:45000}, {n:'Gamburger', p:35000}, {n:'Chizburger', p:40000}, {n:'Fri', p:15000}],
+        'guma': [{n:'GUMA', p:5000}, {n:'CHEBUREK', p:8000}, {n:'KARTOSHKALI', p:4000}],
         'grill': [{n:'KOTA GRILL', p:60000}, {n:'KFS 1 KG', p:100000}],
         'somsa': [{n:'QIYMA', p:8000}, {n:'QÕY JAZ', p:16000}, {n:'QÕY GOSHLI', p:18000}],
-        'tim': [{n:'LAVASH BIG', p:35000}, {n:'MEGA DONAR', p:42000}],
-        'milliy': [{n:'Palov', p:25000}, {n:'Manti', p:18000}]
+        'tim': [{n:'LAVASH BIG', p:35000}, {n:'MEGA DONAR', p:42000}, {n:'Xodog super', p:25000}],
+        'milliy': [{n:'Palov', p:25000}, {n:'Manti', p:18000}, {n:'Sho\'rva', p:22000}]
     };
 
     function openM(id) {
         document.getElementById('main').style.display = 'none';
         document.getElementById('menu').style.display = 'block';
         let div = document.getElementById('content');
-        let html = `<h2>${id.toUpperCase()}</h2>`;
+        let html = `<h2 style="text-align:center">${id.toUpperCase()}</h2>`;
         data[id].forEach(i => {
-            let p = foodPics[i.n] || 'https://via.placeholder.com/60?text=Food';
+            let p = foodPics[i.n] || 'https://via.placeholder.com/100?text=Taom';
             html += `<div class="item">
                 <div style="display:flex; align-items:center;">
                     <div class="i-img" style="background-image:url('${p}')"></div>
-                    <div><b>${i.n}</b><br><span style="color:#27ae60;font-weight:bold;">${i.p.toLocaleString()}</span></div>
+                    <div><b>${i.n}</b><br><span style="color:#27ae60;font-weight:bold;">${i.p.toLocaleString()} so'm</span></div>
                 </div>
                 <button class="add" onclick="add('${i.n}', ${i.p})">+</button>
             </div>`;
@@ -145,8 +144,10 @@
     }
 
     function send() {
-        tg.sendData(JSON.stringify(cart));
-        tg.close();
+        if(cart.length > 0) {
+            tg.sendData(JSON.stringify(cart));
+            tg.close();
+        }
     }
 </script>
 </body>
