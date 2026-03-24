@@ -6,105 +6,72 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 10px; padding-bottom: 90px; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; margin: 0; padding: 10px; padding-bottom: 90px; }
         
-        /* Акция */
-        .promo-banner { background: linear-gradient(135deg, #f39c12, #d35400); color: white; padding: 12px; border-radius: 15px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 4px 10px rgba(211, 84, 0, 0.3); font-size: 0.9rem; }
-        
-        /* Сетка категорий */
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        
-        /* Стиль КАРТОЧЕК с ФОТО */
+        .promo-banner { 
+            background: linear-gradient(135deg, #ff9800, #e67e22); 
+            color: white; padding: 12px; border-radius: 15px; 
+            text-align: center; margin-bottom: 15px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* КАРТОЧКИ С ФОТО */
         .card { 
-            position: relative;
-            height: 130px;
-            border-radius: 20px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            background-size: cover;
-            background-position: center;
-            border: none;
-            cursor: pointer;
+            position: relative; height: 120px; border-radius: 18px; 
+            overflow: hidden; display: flex; align-items: center; 
+            justify-content: center; text-align: center;
+            background-size: cover; background-position: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid white;
         }
-        .card:active { transform: scale(0.96); }
 
-        /* Затемнение для текста */
+        /* Затемнение, чтобы текст был виден */
         .card::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.45); /* Затемняем фото, чтобы текст был виден */
-            z-index: 1;
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4); z-index: 1;
         }
 
-        .card b {
-            position: relative;
-            z-index: 2;
-            color: white;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        .card b { 
+            position: relative; z-index: 2; color: white; 
+            text-transform: uppercase; font-size: 0.95rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
 
-        .card small {
-            position: relative;
-            z-index: 2;
-            color: #ecf0f1;
-            display: block;
-            margin-top: 5px;
-        }
-
-        /* Фото для категорий */
-        #card-milliy { background-image: url('https://images.unsplash.com/photo-1626509653299-4ee43087d677?q=80&w=500&auto=format&fit=crop'); }
-        #card-burger { background-image: url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=500&auto=format&fit=crop'); }
-        #card-guma { background-image: url('https://images.unsplash.com/photo-1623341214825-9f4f963727da?q=80&w=500&auto=format&fit=crop'); }
-        #card-grill { background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=500&auto=format&fit=crop'); }
+        /* ССЫЛКИ НА АППЕТИТНЫЕ ФОТО */
+        #card-burger { background-image: url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop'); }
+        #card-guma { background-image: url('https://img.freepik.com/free-photo/fried-patties-on-plate_144627-10113.jpg?w=500'); }
+        #card-grill { background-image: url('https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=500&auto=format&fit=crop'); }
         #card-somsa { background-image: url('https://images.unsplash.com/photo-1603362115995-95021f70eebe?q=80&w=500&auto=format&fit=crop'); }
         #card-tim { background-image: url('https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?q=80&w=500&auto=format&fit=crop'); }
-
-        .card.closed { filter: grayscale(100%); opacity: 0.8; }
+        #card-milliy { background-image: url('https://images.unsplash.com/photo-1626509653299-4ee43087d677?q=80&w=500&auto=format&fit=crop'); filter: grayscale(1); }
 
         /* Меню внутри */
-        .menu-page { display: none; background: white; border-radius: 20px 20px 0 0; padding: 20px; min-height: 100vh; }
-        .food-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
-        
-        .food-info { display: flex; align-items: center; }
-        .food-img { width: 60px; height: 60px; border-radius: 12px; margin-right: 15px; background-size: cover; background-position: center; background-color: #f0f0f0; }
-        
-        .food-details b { display: block; font-size: 1rem; margin-bottom: 4px; }
-        .food-details span { color: #27ae60; font-weight: bold; font-size: 0.9rem; }
+        .menu-page { display: none; background: white; border-radius: 20px; padding: 15px; min-height: 80vh; }
+        .food-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .food-img { width: 55px; height: 55px; border-radius: 12px; margin-right: 12px; background-size: cover; background-position: center; background-color: #f0f0f0; }
+        .add-btn { background: #ff9800; color: white; border: none; width: 38px; height: 38px; border-radius: 10px; font-size: 1.4rem; cursor: pointer; }
 
-        .add-btn { background: #f39c12; color: white; border: none; width: 40px; height: 40px; border-radius: 12px; font-size: 1.5rem; font-weight: bold; cursor: pointer; }
-
-        /* Футер */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000; }
-        .order-confirm { background: #27ae60; color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; }
-
-        .back-btn { background: #eee; border: none; padding: 10px 20px; border-radius: 10px; margin-bottom: 20px; width: 100%; font-weight: bold; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
+        .order-confirm { background: #27ae60; color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="main-page">
-    <div class="promo-banner">🎁 AKSIYA: Har 6-chi yetkazib berish BEPUL!</div>
+    <div class="promo-banner">🎁 6-chi buyurtma yetkazib berish BEPUL!</div>
     <div class="main-grid">
-        <div class="card closed" id="card-milliy" onclick="alert('Tez kunda!')"><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
         <div class="card" id="card-burger" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
-        <div class="card" id="card-guma" onclick="showMenu('guma')"><b>GUMA PIRASHKI</b></div>
+        <div class="card" id="card-guma" onclick="showMenu('guma')"><b>GUMA & PIRASHKI</b></div>
         <div class="card" id="card-grill" onclick="showMenu('grill')"><b>GRILL</b></div>
         <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>SOMSA / SHASHLIK</b></div>
         <div class="card" id="card-tim" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
+        <div class="card" id="card-milliy" onclick="alert('1-apreldan!')"><b>MILLIY TAOMLAR</b></div>
     </div>
 </div>
 
 <div id="menu-page" class="menu-page">
-    <button class="back-btn" onclick="goBack()">⬅️ Orqaga</button>
+    <button onclick="goBack()" style="width:100%; padding:10px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc;">⬅️ Orqaga</button>
     <div id="menu-content"></div>
 </div>
 
@@ -118,25 +85,12 @@
     let cart = [];
     let totalPrice = 0;
 
-    // Ссылки на фото для конкретных блюд
-    const itemPhotos = {
-        'Big Burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200',
-        'Gamburger': 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=200',
-        'Lavash Big (Mol)': 'https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?w=200',
-        'Fri': 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=200',
-        'GUMA': 'https://images.unsplash.com/photo-1623341214825-9f4f963727da?w=200',
-        'CHEBUREK': 'https://images.unsplash.com/photo-1610134810240-39404286f03d?w=200',
-        'KOTA GRILL': 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200',
-        'QIYMA': 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=200',
-        'QÕY GOSHLI': 'https://images.unsplash.com/photo-1603362115995-95021f70eebe?w=200'
-    };
-
     const data = {
-        'burger': [{n:'Big Burger', p:45000}, {n:'Gamburger', p:35000}, {n:'Chizburger', p:40000}, {n:'Fri', p:15000}],
-        'guma': [{n:'KARTOSHKALI', p:4000}, {n:'GUMA', p:5000}, {n:'CHEBUREK', p:8000}],
+        'burger': [{n:'Big Burger', p:45000}, {n:'Chizburger', p:40000}, {n:'Lavash Big', p:48000}, {n:'Fri', p:15000}],
+        'guma': [{n:'GUMA', p:5000}, {n:'CHEBUREK', p:8000}, {n:'KARTOSHKALI', p:4000}],
         'grill': [{n:'KOTA GRILL', p:60000}, {n:'KFS 1 KG', p:100000}],
-        'somsa': [{n:'QIYMA', p:8000}, {n:'QÕY GOSHLI', p:18000}, {n:'MOL GOSHLI', p:13000}],
-        'tim': [{n:'LAVASH BIG', p:35000}, {n:'MEGA DONAR', p:42000}, {n:'Xodog super', p:25000}]
+        'somsa': [{n:'QIYMA', p:8000}, {n:'QÕY JAZ', p:16000}, {n:'QÕY GOSHLI', p:18000}],
+        'tim': [{n:'LAVASH BIG', p:35000}, {n:'MEGA DONAR', p:42000}, {n:'Flesh', p:13000}]
     };
 
     function showMenu(id) {
@@ -144,16 +98,11 @@
         document.getElementById('menu-page').style.display = 'block';
         let container = document.getElementById('menu-content');
         let html = `<h3>${id.toUpperCase()}</h3>`;
-        
         data[id].forEach(item => {
-            let photo = itemPhotos[item.n] || 'https://via.placeholder.com/60?text=Food';
             html += `<div class="food-item">
-                <div class="food-info">
-                    <div class="food-img" style="background-image: url('${photo}')"></div>
-                    <div class="food-details">
-                        <b>${item.n}</b>
-                        <span>${item.p.toLocaleString()} so'm</span>
-                    </div>
+                <div style="display:flex; align-items:center;">
+                    <div class="food-img" style="background-image:url('https://via.placeholder.com/60?text=Food')"></div>
+                    <div><b>${item.n}</b><br><small style="color:#27ae60">${item.p.toLocaleString()} so'm</small></div>
                 </div>
                 <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
             </div>`;
@@ -162,19 +111,18 @@
     }
 
     function add(name, price) {
-        cart.push({name: name, price: price});
+        cart.push({name, price});
         totalPrice += price;
         document.getElementById('footer').style.display = 'block';
         document.querySelector('.order-confirm').innerText = `TASDIQLASH: ${totalPrice.toLocaleString()} so'm`;
-        tg.HapticFeedback.impactOccurred('light');
+        tg.HapticFeedback.impactOccurred('medium');
     }
 
     function goBack() {
         document.getElementById('main-page').style.display = 'block';
         document.getElementById('menu-page').style.display = 'none';
         document.getElementById('footer').style.display = 'none';
-        cart = [];
-        totalPrice = 0;
+        cart = []; totalPrice = 0;
     }
 
     function finishOrder() {
