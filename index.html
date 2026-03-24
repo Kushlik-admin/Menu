@@ -6,126 +6,133 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; margin: 0; padding: 10px; padding-bottom: 90px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 10px; padding-bottom: 100px; }
         
-        .promo-banner { 
-            background: linear-gradient(135deg, #ff9800, #e67e22); 
-            color: white; padding: 12px; border-radius: 15px; 
-            text-align: center; margin-bottom: 15px; font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .promo { 
+            background: linear-gradient(135deg, #ff9800, #f39c12); color: white; 
+            padding: 12px; border-radius: 15px; text-align: center; margin-bottom: 15px;
+            font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* КАРТОЧКИ С ФОТО */
+        /* ГЛАВНЫЕ КАРТОЧКИ С ФОТО */
         .card { 
-            position: relative; height: 120px; border-radius: 18px; 
+            position: relative; height: 140px; border-radius: 20px; 
             overflow: hidden; display: flex; align-items: center; 
             justify-content: center; text-align: center;
             background-size: cover; background-position: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 2px solid white;
         }
 
-        /* Затемнение, чтобы текст был виден */
         .card::after {
             content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4); z-index: 1;
+            background: rgba(0, 0, 0, 0.45); z-index: 1;
         }
 
         .card b { 
             position: relative; z-index: 2; color: white; 
-            text-transform: uppercase; font-size: 0.95rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            font-size: 1rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
         }
 
-        /* ССЫЛКИ НА АППЕТИТНЫЕ ФОТО */
-        #card-burger { background-image: url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop'); }
-        #card-guma { background-image: url('https://img.freepik.com/free-photo/fried-patties-on-plate_144627-10113.jpg?w=500'); }
-        #card-grill { background-image: url('https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=500&auto=format&fit=crop'); }
-        #card-somsa { background-image: url('https://images.unsplash.com/photo-1603362115995-95021f70eebe?q=80&w=500&auto=format&fit=crop'); }
-        #card-tim { background-image: url('https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?q=80&w=500&auto=format&fit=crop'); }
-        #card-milliy { background-image: url('https://images.unsplash.com/photo-1626509653299-4ee43087d677?q=80&w=500&auto=format&fit=crop'); filter: grayscale(1); }
+        /* Прямые ссылки на фото для категорий */
+        #c-burger { background-image: url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500'); }
+        #c-guma { background-image: url('https://img.freepik.com/free-photo/traditional-uzbek-pastry-somsa_144627-44026.jpg?w=500'); }
+        #c-grill { background-image: url('https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=500'); }
+        #c-somsa { background-image: url('https://images.unsplash.com/photo-1603362115995-95021f70eebe?q=80&w=500'); }
+        #c-tim { background-image: url('https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?q=80&w=500'); }
+        #c-milliy { background-image: url('https://images.unsplash.com/photo-1626509653299-4ee43087d677?q=80&w=500'); filter: grayscale(1); }
 
-        /* Меню внутри */
-        .menu-page { display: none; background: white; border-radius: 20px; padding: 15px; min-height: 80vh; }
-        .food-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .food-img { width: 55px; height: 55px; border-radius: 12px; margin-right: 12px; background-size: cover; background-position: center; background-color: #f0f0f0; }
-        .add-btn { background: #ff9800; color: white; border: none; width: 38px; height: 38px; border-radius: 10px; font-size: 1.4rem; cursor: pointer; }
+        /* Внутреннее меню */
+        .menu-page { display: none; background: white; border-radius: 25px 25px 0 0; padding: 20px; min-height: 80vh; }
+        .item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .i-img { width: 60px; height: 60px; border-radius: 12px; margin-right: 12px; background-size: cover; background-position: center; background-color: #f0f0f0; }
+        .add { background: #ff9800; color: white; border: none; width: 40px; height: 40px; border-radius: 12px; font-size: 1.5rem; cursor: pointer; }
 
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
-        .order-confirm { background: #27ae60; color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-confirm { background: #27ae60; color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
-<div id="main-page">
-    <div class="promo-banner">🎁 6-chi buyurtma yetkazib berish BEPUL!</div>
-    <div class="main-grid">
-        <div class="card" id="card-burger" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
-        <div class="card" id="card-guma" onclick="showMenu('guma')"><b>GUMA & PIRASHKI</b></div>
-        <div class="card" id="card-grill" onclick="showMenu('grill')"><b>GRILL</b></div>
-        <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>SOMSA / SHASHLIK</b></div>
-        <div class="card" id="card-tim" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
-        <div class="card" id="card-milliy" onclick="alert('1-apreldan!')"><b>MILLIY TAOMLAR</b></div>
+<div id="main">
+    <div class="promo">🎁 6-chi buyurtma yetkazib berish BEPUL!</div>
+    <div class="grid">
+        <div class="card" id="c-burger" onclick="openM('burger')"><b>BURGER PRO</b></div>
+        <div class="card" id="c-guma" onclick="openM('guma')"><b>GUMA & PIRASHKI</b></div>
+        <div class="card" id="c-grill" onclick="openM('grill')"><b>GRILL</b></div>
+        <div class="card" id="c-somsa" onclick="openM('somsa')"><b>SOMSA / SHASHLIK</b></div>
+        <div class="card" id="c-tim" onclick="openM('tim')"><b>TIM LAVASH</b></div>
+        <div class="card" id="c-milliy" onclick="alert('1-apreldan!')"><b>MILLIY TAOMLAR</b></div>
     </div>
 </div>
 
-<div id="menu-page" class="menu-page">
-    <button onclick="goBack()" style="width:100%; padding:10px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc;">⬅️ Orqaga</button>
-    <div id="menu-content"></div>
+<div id="menu" class="menu-page">
+    <button onclick="back()" style="width:100%; padding:12px; margin-bottom:20px; border-radius:12px; border:none; background:#eee; font-weight:bold;">⬅️ ORQAGA</button>
+    <div id="content"></div>
 </div>
 
-<div class="footer" id="footer">
-    <button class="order-confirm" onclick="finishOrder()">TASDIQLASH</button>
+<div class="footer" id="f">
+    <button class="btn-confirm" id="confirm-text" onclick="send()">TASDIQLASH</button>
 </div>
 
 <script>
     let tg = window.Telegram.WebApp;
     tg.expand();
     let cart = [];
-    let totalPrice = 0;
+    let total = 0;
+
+    // Фотографии для блюд внутри меню
+    const foodPics = {
+        'Big Burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100',
+        'GUMA': 'https://img.freepik.com/free-photo/fried-patties_144627-10113.jpg?w=100',
+        'QIYMA': 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=100',
+        'KOTA GRILL': 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=100',
+        'LAVASH BIG': 'https://images.unsplash.com/photo-1626700051175-656fc7bc30cc?w=100'
+    };
 
     const data = {
-        'burger': [{n:'Big Burger', p:45000}, {n:'Chizburger', p:40000}, {n:'Lavash Big', p:48000}, {n:'Fri', p:15000}],
+        'burger': [{n:'Big Burger', p:45000}, {n:'Gamburger', p:35000}, {n:'Lavash Big (Mol)', p:48000}, {n:'Fri', p:15000}],
         'guma': [{n:'GUMA', p:5000}, {n:'CHEBUREK', p:8000}, {n:'KARTOSHKALI', p:4000}],
         'grill': [{n:'KOTA GRILL', p:60000}, {n:'KFS 1 KG', p:100000}],
         'somsa': [{n:'QIYMA', p:8000}, {n:'QÕY JAZ', p:16000}, {n:'QÕY GOSHLI', p:18000}],
         'tim': [{n:'LAVASH BIG', p:35000}, {n:'MEGA DONAR', p:42000}, {n:'Flesh', p:13000}]
     };
 
-    function showMenu(id) {
-        document.getElementById('main-page').style.display = 'none';
-        document.getElementById('menu-page').style.display = 'block';
-        let container = document.getElementById('menu-content');
+    function openM(id) {
+        document.getElementById('main').style.display = 'none';
+        document.getElementById('menu').style.display = 'block';
+        let div = document.getElementById('content');
         let html = `<h3>${id.toUpperCase()}</h3>`;
-        data[id].forEach(item => {
-            html += `<div class="food-item">
+        data[id].forEach(i => {
+            let p = foodPics[i.n] || 'https://via.placeholder.com/60?text=Food';
+            html += `<div class="item">
                 <div style="display:flex; align-items:center;">
-                    <div class="food-img" style="background-image:url('https://via.placeholder.com/60?text=Food')"></div>
-                    <div><b>${item.n}</b><br><small style="color:#27ae60">${item.p.toLocaleString()} so'm</small></div>
+                    <div class="i-img" style="background-image:url('${p}')"></div>
+                    <div><b>${i.n}</b><br><span style="color:#27ae60;font-weight:bold;">${i.p.toLocaleString()}</span></div>
                 </div>
-                <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
+                <button class="add" onclick="add('${i.n}', ${i.p})">+</button>
             </div>`;
         });
-        container.innerHTML = html;
+        div.innerHTML = html;
     }
 
-    function add(name, price) {
-        cart.push({name, price});
-        totalPrice += price;
-        document.getElementById('footer').style.display = 'block';
-        document.querySelector('.order-confirm').innerText = `TASDIQLASH: ${totalPrice.toLocaleString()} so'm`;
+    function add(n, p) {
+        cart.push({n, p});
+        total += p;
+        document.getElementById('f').style.display = 'block';
+        document.getElementById('confirm-text').innerText = `TASDIQLASH: ${total.toLocaleString()} so'm`;
         tg.HapticFeedback.impactOccurred('medium');
     }
 
-    function goBack() {
-        document.getElementById('main-page').style.display = 'block';
-        document.getElementById('menu-page').style.display = 'none';
-        document.getElementById('footer').style.display = 'none';
-        cart = []; totalPrice = 0;
+    function back() {
+        document.getElementById('main').style.display = 'block';
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('f').style.display = 'none';
+        cart = []; total = 0;
     }
 
-    function finishOrder() {
+    function send() {
         tg.sendData(JSON.stringify(cart));
         tg.close();
     }
