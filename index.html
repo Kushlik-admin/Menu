@@ -9,29 +9,30 @@
         body { font-family: sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
         .promo-banner { background: linear-gradient(135deg, #ffc107, #ff9800); color: black; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 2px dashed #d35400; }
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid #ddd; }
+        .card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid #ddd; cursor: pointer; }
         .card.closed { background: #e0e0e0; opacity: 0.8; }
         .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
         .food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
-        .add-btn { background: #ffc107; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
+        .add-btn { background: #ffc107; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .call-btn { display: block; background: #2e7d32; color: white; text-align: center; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1em; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
-<div class="promo-banner">🎁 AKSIYA: Har 6-chi yetkazib berish BEPUL!</div>
-
-<div id="main-grid" class="main-grid">
-    <div class="card closed" onclick="alert('1-apreldan ish boshlaymiz!')">🍱<br><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
-    <div class="card" onclick="showMenu('burger', true)">🍔<br><b>BURGER PRO</b></div>
-    <div class="card" onclick="showMenu('guma', true)">🥐<br><b>GUMA PIRASHKI</b></div>
-    <div class="card" onclick="showMenu('gril', true)">🍗<br><b>GRIL</b></div>
-    <div class="card" onclick="showMenu('somsa', true)">🥟<br><b>AKAXON SOMSA</b></div>
-    <div class="card" onclick="showMenu('lavash', true)">🌯<br><b>TIM LAVASH</b></div>
-    <div class="card" style="background:#e8f5e9" onclick="showMenu('market', false)">🛒<br><b>MARKET</b></div>
-    <div class="card" style="background:#ffebee" onclick="showMenu('dorxona', false)">💊<br><b>DORXONA</b></div>
+<div id="main-page">
+    <div class="promo-banner">🎁 AKSIYA: Har 6-chi yetkazib berish BEPUL!</div>
+    <div class="main-grid">
+        <div class="card closed" onclick="alert('1-apreldan ish boshlaymiz!')">🇺🇿<br><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
+        <div class="card" onclick="showMenu('burger', true)">🍔<br><b>BURGER PRO</b></div>
+        <div class="card" onclick="showMenu('guma', true)">🥐<br><b>GUMA PIRASHKI</b></div>
+        <div class="card" onclick="showMenu('grill', true)">🍗<br><b>GRILL</b></div>
+        <div class="card" onclick="showMenu('somsa', true)">🍢<br><b>AKAHON SOMSA</b></div>
+        <div class="card" onclick="showMenu('tim', true)">🌯<br><b>TIM LAVASH</b></div>
+        <div class="card" style="background:#e8f5e9" onclick="showMenu('market', false)">🛒<br><b>MARKET</b></div>
+        <div class="card" style="background:#fff8e1" onclick="showMenu('dorixona', false)">💊<br><b>DORIXONA</b></div>
+    </div>
 </div>
 
 <div id="menu-page" class="menu-page">
@@ -39,43 +40,74 @@
     <div id="menu-content"></div>
 </div>
 
-<div class="footer" id="footer"><button class="order-confirm" onclick="finishOrder()">BUYURTMANI TASDIQLASH 🛒</button></div>
+<div class="footer" id="footer">
+    <button class="order-confirm" onclick="finishOrder()">BUYURTMANI TASDIQLASH</button>
+</div>
 
 <script>
     let tg = window.Telegram.WebApp;
+    tg.expand();
     let cart = [];
+
     const data = {
-        'burger': ['Big Burger', 'Cheese Burger', 'Fri'],
-        'guma': ['Guma go\'shtli', 'Piroshki'],
-        'gril': ['Butun Gril', 'Yarim Gril'],
-        'somsa': ['Tandir Somsa', 'Kosa Somsa', 'Barra Somsa'],
-        'lavash': ['Lavash Big', 'Klab Sendvich'],
-        'market': 'call', 'dorxona': 'call'
+        'burger': [
+            {n:'Big Burger', p:45000}, {n:'Chizburger', p:40000}, {n:'Lavash Big', p:48000}, {n:'Fri', p:15000}
+        ],
+        'guma': [
+            {n:'Guma', p:5000}, {n:'Kartoshkali', p:4000}, {n:'Sosiskali', p:5000}, {n:'Cheburek', p:8000}
+        ],
+        'grill': [
+            {n:'Kota Grill', p:60000}, {n:'Ortancha Grill', p:55000}, {n:'KFS 1kg', p:100000}
+        ],
+        'somsa': [
+            {n:'Qiyma Shashlik', p:8000}, {n:'Jigar', p:8000}, {n:'Qoy Somsa', p:18000}, {n:'Mol Somsa', p:13000}
+        ],
+        'tim': [
+            {n:'Lavash Big', p:35000}, {n:'Sir Lavash', p:37000}, {n:'Donar Big', p:32000}, {n:'Xudog Super', p:25000}
+        ],
+        'market': 'call',
+        'dorixona': 'call'
     };
 
     function showMenu(id, isRest) {
-        document.getElementById('main-grid').style.display = 'none';
+        document.getElementById('main-page').style.display = 'none';
         document.getElementById('menu-page').style.display = 'block';
+        let container = document.getElementById('menu-content');
         let html = `<h3>${id.toUpperCase()}</h3>`;
-        if(isRest) {
+
+        if (isRest) {
             data[id].forEach(item => {
-                html += `<div class="food-item"><span>${item}</span><button class="add-btn" onclick="add('${item}')">Savatga</button></div>`;
+                html += `<div class="food-item">
+                    <span><b>${item.n}</b><br><small>${item.p.toLocaleString()} so'm</small></span>
+                    <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
+                </div>`;
             });
         } else {
-            html += `<p>Buyurtma uchun qo'ng'iroq qiling:</p><a href="tel:+998901234567" class="call-btn">📞 Qo'ng'iroq qilish</a>`;
+            html += `<p>Buyurtma uchun qo'ng'iroq qiling:</p>
+                     <a href="tel:+998901234567" class="call-btn">📞 Qo'ng'iroq qilish</a>`;
         }
-        document.getElementById('menu-content').innerHTML = html;
+        container.innerHTML = html;
     }
 
-    function add(name) {
-        cart.push({name: name});
+    function add(name, price) {
+        cart.push({name: name, price: price});
         document.getElementById('footer').style.display = 'block';
         tg.HapticFeedback.notificationOccurred('success');
     }
 
-    function finishOrder() { tg.sendData(JSON.stringify(cart)); }
-    function goBack() { document.getElementById('main-grid').style.display = 'grid'; document.getElementById('menu-page').style.display = 'none'; document.getElementById('footer').style.display = 'none'; cart = []; }
-    tg.expand();
+    function finishOrder() {
+        if (cart.length > 0) {
+            tg.sendData(JSON.stringify(cart));
+            tg.close();
+        }
+    }
+
+    function goBack() {
+        document.getElementById('main-page').style.display = 'grid';
+        document.getElementById('menu-page').style.display = 'none';
+        document.getElementById('footer').style.display = 'none';
+        cart = [];
+    }
 </script>
 </body>
 </html>
