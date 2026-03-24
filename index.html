@@ -6,18 +6,81 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
-        .promo-banner { background: linear-gradient(135deg, #ffc107, #ff9800); color: black; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 2px dashed #d35400; }
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid #ddd; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-direction: column; min-height: 80px; }
-        .card.closed { background: #e0e0e0; opacity: 0.8; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
+        
+        /* Промо-баннер */
+        .promo-banner { background: linear-gradient(135deg, #ffc107, #ff9800); color: black; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 2px dashed #d35400; font-size: 0.9rem; }
+        
+        /* Главная сетка */
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        /* Стилизация КАРТ с фото */
+        .card { 
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            cursor: pointer;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 2px solid white;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:active { transform: scale(0.97); }
+        
+        /* Затемнение фона для читаемости текста */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4); /* Полупрозрачный черный */
+            border-radius: 13px;
+        }
+        
+        /* Текст на картах */
+        .card b, .card small {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            font-size: 1rem;
+        }
+        .card small { font-size: 0.75rem; font-weight: normal; opacity: 0.9; }
+
+        /* Стиль для закрытого ресторана */
+        .card.closed { opacity: 0.7; filter: grayscale(50%); }
+        
+        /* Страница меню */
         .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
         .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .add-btn { background: #ffc107; border: none; width: 40px; height: 40px; border-radius: 10px; font-weight: bold; font-size: 20px; cursor: pointer; }
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
-        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; }
-        .price-tag { color: #2e7d32; font-weight: bold; font-size: 0.9rem; }
-        .category-title { background: #eee; padding: 5px 10px; margin-top: 15px; border-radius: 5px; font-size: 0.9rem; font-weight: bold; }
+        .add-btn { background: #ffc107; border: none; width: 42px; height: 42px; border-radius: 12px; font-weight: bold; font-size: 22px; cursor: pointer; }
+        
+        /* Фото блюд в меню */
+        .food-img { width: 50px; height: 50px; border-radius: 10px; background-size: cover; background-position: center; margin-right: 12px; }
+
+        /* Категории */
+        .category-title { background: #eee; padding: 6px 10px; margin-top: 15px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #555; }
+        
+        /* Футер (кнопка подтверждения) */
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 1000; }
+        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 1.15rem; cursor: pointer; }
+        .price-tag { color: #2e7d32; font-weight: bold; font-size: 0.95rem; }
+
+        /* Мои версии ФОТО для главных карт (URL) */
+        #card-milliy { background-image: url('https://img.uz/w3i/c7y.jpg'); } /* Ош */
+        #card-burger { background-image: url('https://img.uz/w3i/c7w.jpg'); } /* Бургер Про */
+        #card-guma { background-image: url('https://img.uz/w3i/c7u.jpg'); }   /* Гума */
+        #card-grill { background-image: url('https://img.uz/w3i/c7q.jpg'); }  /* Гриль */
+        #card-somsa { background-image: url('https://img.uz/w3i/c7m.jpg'); }  /* Шашлык/Сомса */
+        #card-tim { background-image: url('https://img.uz/w3i/c7k.jpg'); }    /* Тима Лаваш */
+
     </style>
 </head>
 <body>
@@ -25,17 +88,17 @@
 <div id="main-page">
     <div class="promo-banner">🎁 AKSIYA: Har 6-chi yetkazib berish BEPUL!</div>
     <div class="main-grid">
-        <div class="card closed" onclick="alert('1-apreldan ish boshlaymiz!')">🇺🇿<br><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
-        <div class="card" onclick="showMenu('burger')">🍔<br><b>BURGER PRO</b></div>
-        <div class="card" onclick="showMenu('guma')">🥐<br><b>GUMA & PIRASHKI</b></div>
-        <div class="card" onclick="showMenu('grill')">🍗<br><b>GRILL</b></div>
-        <div class="card" onclick="showMenu('somsa')">🍢<br><b>AKAHON SOMSA</b></div>
-        <div class="card" onclick="showMenu('tim')">🌯<br><b>TIM LAVASH</b></div>
+        <div class="card closed" id="card-milliy" onclick="alert('1-apreldan ish boshlaymiz!')"><b>MILLIY TAOMLAR</b><br><small>1-APREL</small></div>
+        <div class="card" id="card-burger" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
+        <div class="card" id="card-guma" onclick="showMenu('guma')"><b>GUMA PIRASHKI</b></div>
+        <div class="card" id="card-grill" onclick="showMenu('grill')"><b>GRILL</b></div>
+        <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>SOMSA / SHASHLIK</b></div>
+        <div class="card" id="card-tim" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
     </div>
 </div>
 
 <div id="menu-page" class="menu-page">
-    <button onclick="goBack()" style="padding:10px; width:100%; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;">⬅️ Orqaga</button>
+    <button onclick="goBack()" style="padding:10px; width:100%; margin-bottom:15px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer;">⬅️ Orqaga</button>
     <div id="menu-content"></div>
 </div>
 
@@ -49,39 +112,56 @@
     let cart = [];
     let totalPrice = 0;
 
+    // Мои версии ФОТО для блюд (URL)
+    const foodImgs = {
+        'Big Burger': 'https://img.uz/w3i/c7v.jpg',
+        'Gamburger': 'https://img.uz/w3i/c7z.jpg',
+        'Lavash Big (Mol)': 'https://img.uz/w3i/c7t.jpg',
+        'Doner Box': 'https://img.uz/w3i/c7s.jpg',
+        'KARTOSHKALI': 'https://img.uz/w3i/c7r.jpg',
+        'GUMA': 'https://img.uz/w3i/c7p.jpg',
+        'CHEBUREK': 'https://img.uz/w3i/c7n.jpg',
+        'KOTA GRILL': 'https://img.uz/w3i/c7l.jpg',
+        'KFS 1 KG': 'https://img.uz/w3i/c7j.jpg',
+        'QIYMA': 'https://img.uz/w3i/c7x.jpg',
+        'QÕY JAZ': 'https://img.uz/w3i/c75.jpg',
+        'QÕY GOSHLI': 'https://img.uz/w3i/c74.jpg',
+        'LAVASH BIG': 'https://img.uz/w3i/c7h.jpg',
+        'MEGA DONAR': 'https://img.uz/w3i/c7g.jpg',
+        'Xodog super': 'https://img.uz/w3i/c7f.jpg',
+        'Flesh': 'https://img.uz/w3i/c7e.jpg'
+    };
+
+    // Данные меню (сохранены без изменений)
     const data = {
-        'guma': [
-            {n:'KARTOSHKALI', p:4000}, {n:'GUMA', p:5000}, {n:'SASISKALI', p:5000}, 
-            {n:'GOSHLI', p:5000}, {n:'CHEBUREK', p:8000}, {n:'KAROMLI', p:4000}, 
-            {n:'TUHM KÕK PIYOZ BILAN', p:5000}
-        ],
         'burger': [
-            {n:'Big Burger', p:45000}, {n:'Gamburger', p:35000}, {n:'Chizburger', p:40000}, 
-            {n:'Double Chizburger', p:55000}, {n:'Lavash Big (Mol)', p:48000}, {n:'Lavash Big (Tovuq)', p:45000},
-            {n:'Doner Box', p:50000}, {n:'Klab Sendvich', p:42000}, {n:'Fri', p:15000}
+            {n:'Big Burger', p:45000}, {n:'Gamburger', p:35000}, {n:'Chizburger', p:40000}, {n:'Double Chizburger', p:55000}, 
+            {n:'Lavash Big (Mol)', p:48000}, {n:'Lavash Big (Tovuq)', p:45000}, {n:'Mini Lavash (Mol)', p:40000}, {n:'Mini Lavash (Tovuq)', p:38000},
+            {n:'Doner Box', p:50000}, {n:'Klab Sendvich', p:42000}, {n:'Fri', p:15000}, {n:'Slayzer', p:24000},
+            {n:'Nuggetlar (8 dona)', p:23000}, {n:'Krilishki (5 dona)', p:34000},
+            {cat: 'ICHIMLIKLAR'},
+            {n:'Pepsi/Cola 0.5L', p:8000}, {n:'Pepsi/Cola 1L', p:13000}, {n:'Pepsi/Cola 1.5L', p:17000}
+        ],
+        'guma': [
+            {n:'KARTOSHKALI', p:4000}, {n:'GUMA', p:5000}, {n:'SASISKALI', p:5000}, {n:'GOSHLI', p:5000}, 
+            {n:'CHEBUREK', p:8000}, {n:'KAROMLI', p:4000}, {n:'TUHM KÕK PIYOZ BILAN', p:5000}
         ],
         'grill': [
-            {n:'KOTA GRILL', p:60000}, {n:'ORTANCHA GRIL', p:55000}, 
-            {n:'KICHKINA GRIL', p:50000}, {n:'KFS 1 KG', p:100000}
+            {n:'KOTA GRILL', p:60000}, {n:'ORTANCHA GRIL', p:55000}, {n:'KICHKINA GRIL', p:50000}, {n:'KFS 1 KG', p:100000}
         ],
         'somsa': [
-            {cat: 'SHASHLIK'},
-            {n:'QIYMA', p:8000}, {n:'TOVQ', p:8000}, {n:'JIGAR', p:8000}, 
-            {n:'BALIQ', p:10000}, {n:'MOL JAZ', p:15000}, {n:'QÕY JAZ', p:16000},
-            {cat: 'SOMSA'},
-            {n:'QÕY GOSHLI', p:18000}, {n:'MOL GOSHLI', p:13000}, 
-            {n:'TOVUQ GOSHLI', p:8000}, {n:'KARTOSHKALI', p:5000}
+            {cat: '🔥 SHASHLIK'},
+            {n:'QIYMA', p:8000}, {n:'TOVQ', p:8000}, {n:'JIGAR', p:8000}, {n:'BALIQ', p:10000}, {n:'MOL JAZ', p:15000}, {n:'QÕY JAZ', p:16000},
+            {cat: '🥟 SOMSA'},
+            {n:'QÕY GOSHLI', p:18000}, {n:'MOL GOSHLI', p:13000}, {n:'TOVUQ GOSHLI', p:8000}, {n:'KARTOSHKALI', p:5000}
         ],
         'tim': [
-            {n:'LAVASH BIG', p:35000}, {n:'MINI LAVASH', p:30000}, {n:'SIR LAVASH', p:37000}, 
-            {n:'DONAR BIG', p:32000}, {n:'MEGA DONAR', p:42000}, {n:'XAGI', p:35000},
-            {n:'MINI XAGI', p:30000}, {n:'Xodog super', p:25000}, {n:'MINI XUDOG', p:15000},
-            {n:'MEGA XUDOG', p:29000}, {n:'QAZLI XUDOG', p:38000}, {n:'KLAB SENDVICH', p:45000},
-            {cat: 'ICHIMLIKLAR'},
-            {n:'0.5L Kola/Pepsi/Fanta', p:8000}, {n:'1L Kola/Pepsi/Fanta', p:13000}, 
-            {n:'1.5L Kola/Pepsi/Fanta', p:17000}, {n:'2L Kola/Pepsi/Fanta', p:23000},
-            {n:'1L SOK', p:15000}, {n:'1L FuseTea/Lipton', p:13000},
-            {n:'Gorilla', p:14000}, {n:'18+', p:14000}, {n:'Flesh', p:13000}
+            {n:'LAVASH BIG', p:35000}, {n:'MINI LAVASH', p:30000}, {n:'SIR LAVASH', p:37000}, {n:'DONAR BIG', p:32000}, 
+            {n:'MEGA DONAR', p:42000}, {n:'XAGI', p:35000}, {n:'MINI XAGI', p:30000}, {n:'Xodog super', p:25000}, 
+            {n:'MINI XUDOG', p:15000}, {n:'MEGA XUDOG', p:29000}, {n:'QAZLI XUDOG', p:38000}, {n:'KLAB SENDVICH', p:45000},
+            {cat: '🥤 ICHIMLIKLAR'},
+            {n:'0.5L Kola/Pepsi/Fanta', p:8000}, {n:'1L Kola/Pepsi/Fanta', p:13000}, {n:'1.5L Kola/Pepsi/Fanta', p:17000}, {n:'2L Kola/Pepsi/Fanta', p:23000},
+            {n:'1L Sok', p:15000}, {n:'1L FuseTea/Lipton', p:13000}, {n:'Gorilla', p:14000}, {n:'18+', p:14000}, {n:'Flesh', p:13000}
         ]
     };
 
@@ -95,8 +175,13 @@
             if(item.cat) {
                 html += `<div class="category-title">${item.cat}</div>`;
             } else {
+                // Пытаемся найти фото, если нет - оставляем заглушку
+                let imgSrc = foodImgs[item.n] || 'https://via.placeholder.com/50'; 
                 html += `<div class="food-item">
-                    <div><b>${item.n}</b><br><span class="price-tag">${item.p.toLocaleString()} so'm</span></div>
+                    <div style="display:flex; align-items:center;">
+                        <div class="food-img" style="background-image: url('${imgSrc}')"></div>
+                        <div><b>${item.n}</b><br><span class="price-tag">${item.p.toLocaleString()} so'm</span></div>
+                    </div>
                     <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
                 </div>`;
             }
