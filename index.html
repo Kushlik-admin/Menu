@@ -8,22 +8,15 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
         
-        /* Промо-баннер */
         .promo-banner { 
             background: linear-gradient(135deg, #ffc107, #ff9800); 
-            color: black; 
-            padding: 12px; 
-            border-radius: 12px; 
-            text-align: center; 
-            margin-bottom: 15px; 
-            font-weight: bold; 
+            color: black; padding: 12px; border-radius: 12px; 
+            text-align: center; margin-bottom: 15px; font-weight: bold; 
             border: 2px dashed #d35400; 
         }
 
-        /* Главная сетка */
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* Стилизация КАРТ с фото */
         .card {
             position: relative;
             background-size: cover;
@@ -33,7 +26,7 @@
             text-align: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             cursor: pointer;
-            height: 110px;
+            height: 115px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -42,57 +35,51 @@
             overflow: hidden; 
         }
 
-        /* Затенение фона для читаемости текста */
         .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5); /* Чуть темнее для контраста */
-            border-radius: 13px;
+            background: rgba(0,0,0,0.45); /* Затемнение для читаемости текста */
         }
 
-        /* Текст и иконки на картах */
         .card b {
             position: relative;
-            z-index: 1; /* Чтобы был поверх затемнения */
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-            text-transform: uppercase;
-            font-size: 0.95rem;
-            margin-top: 5px;
-        }
-        
-        .card .icon {
-            position: relative;
             z-index: 1;
-            font-size: 2rem;
             color: white;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 800;
         }
 
-        /* Прямые ссылки на фото блюд (все заменены) */
-        #card-burger { background-image: url('https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg?w=500'); }
-        #card-guma { background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg?w=500'); }
-        #card-grill { background-image: url('https://img.freepik.com/free-photo/grilled-chicken-legs-with-vegetables_23-2148189814.jpg?w=500'); }
-        #card-somsa { background-image: url('https://img.freepik.com/free-photo/eastern-food-patties-with-meat-nuts_23-2148281313.jpg?w=500'); }
-        #card-tim { background-image: url('https://img.freepik.com/free-photo/shawarma-with-meat-vegetables_144627-30372.jpg?w=500'); }
-        #card-milliy { background-image: url('https://img.freepik.com/free-photo/pilaf-with-meat-carrots_23-2148332148.jpg?w=500'); }
+        /* --- ССЫЛКИ НА НОВЫЕ ФОТО --- */
+        #card-burger { background-image: url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400'); }
+        #card-guma { background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg?w=400'); }
+        #card-grill { background-image: url('https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400'); }
         
-        /* Спец. фоны для Дорихона и Маркета */
-        #card-dorxona { background-image: url('https://img.freepik.com/free-photo/pills-spilled-from-bottle-on-counter_23-2148530374.jpg?w=500'); }
-        #card-market { background-image: url('https://img.freepik.com/free-photo/groceries-in-shopping-basket_23-2148286203.jpg?w=500'); }
+        /* 2. Обновленная Самса */
+        #card-somsa { background-image: url('https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg?w=400'); }
+        
+        /* 1. Аппетитный Лаваш */
+        #card-tim { background-image: url('https://img.freepik.com/free-photo/side-view-doner-kebab-with-veggies-white-sauce-pita-slice-tomatoes-lettuce-on-wooden-board_141793-4712.jpg?w=400'); }
+        
+        /* 5. Национальные блюда (Плов/Шурпа) */
+        #card-milliy { background-image: url('https://img.freepik.com/free-photo/oriental-shish-kebab-with-vegetables_140725-3843.jpg?w=400'); }
+        
+        /* 3. Фото для Аптеки */
+        #card-dorxona { background-image: url('https://images.unsplash.com/photo-1587854680352-936b22b91030?w=400'); }
+        
+        /* 4. Фото для Маркета */
+        #card-market { background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=400'); }
 
-        /* Эффект нажатия */
-        .card:active { transform: scale(0.97); }
+        .card:active { transform: scale(0.95); }
 
-        /* Страница меню */
         .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
         .food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .add-btn { background: #ffc107; border: none; width: 40px; height: 40px; border-radius: 10px; font-weight: bold; font-size: 20px; cursor: pointer; }
+        .add-btn { background: #ffc107; border: none; width: 40px; height: 40px; border-radius: 10px; font-weight: bold; font-size: 20px; }
 
-        /* Футер (кнопка подтверждения) */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); }
-        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
+        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -102,23 +89,16 @@
             <div class="card" id="card-burger" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
             <div class="card" id="card-guma" onclick="showMenu('guna')"><b>GUMA & PIRASHKI</b></div>
             <div class="card" id="card-grill" onclick="showMenu('grill')"><b>GRILL</b></div>
-            <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>SOMSA / SHASHLIK</b></div>
+            <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>AKAXON SOMSA</b></div>
             <div class="card" id="card-tim" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
             <div class="card" id="card-milliy" onclick="showMenu('milliy')"><b>MILLIY TAOMLAR</b></div>
-            
-            <div class="card" id="card-dorxona" onclick="showMenu('dorxona')">
-                <div class="icon">💊</div>
-                <b>DORXONA</b>
-            </div>
-            <div class="card" id="card-market" onclick="showMenu('market')">
-                <div class="icon">🛍</div>
-                <b>KUCHLIK MARKET</b>
-            </div>
+            <div class="card" id="card-dorxona" onclick="showMenu('dorxona')"><b>DORXONA</b></div>
+            <div class="card" id="card-market" onclick="showMenu('market')"><b>KUCHLIK MARKET</b></div>
         </div>
     </div>
 
     <div id="menu-page" class="menu-page">
-        <button onclick="goBack()" style="padding:10px; width:100%; margin-bottom:15px; border-radius:10px; border:none; background:#eee; cursor:pointer;">🔙 Orqaga</button>
+        <button onclick="goBack()" style="padding:10px; width:100%; margin-bottom:15px; border-radius:10px; border:none; background:#eee;">🔙 Orqaga</button>
         <div id="menu-content"></div>
     </div>
 
@@ -132,46 +112,26 @@
         let cart = [];
         let totalPrice = 0;
 
-        // Данные меню (сохранены без изменений, добавлены Дорихона и Маркет)
         const data = {
-            'burger': [
-                {n: 'Big Burger', p: 45000}, {n: 'Gamburger', p: 35000}, {n: 'Chizburger', p: 40000}, {n: 'Double Chizburger', p: 55000},
-                {n: 'Lavash Big (Mol)', p: 48000}, {n: 'Mini Lavash (Mol)', p: 40000}, {n: 'Hot-dog Mini', p: 10000}
-            ],
-            'guna': [
-                {n: 'KARTOSHKALI', p: 4000}, {n: 'GUMA', p: 5000}, {n: 'SASISKALI', p: 5000}, {n: 'CHEBUREK', p: 8000}
-            ],
-            'grill': [
-                {n: 'KOTA GRILL', p: 60000}, {n: 'ORTANCHA GRIL', p: 55000}, {n: 'GRILL 1 KG', p: 100000}
-            ],
-            'somsa': [
-                {n: 'QIIMA SHASHLIK', p: 8000}, {n: 'QOY JAZ', p: 16000}, {n: 'QOY GOSHLI SOMSA', p: 18000}, {n: 'KARTOSHKALI SOMSA', p: 5000}
-            ],
-            'tim': [
-                {n: 'LAVASH BIG', p: 35000}, {n: 'MINI LAVASH', p: 30000}, {n: 'MEGA DONAR', p: 42000}, {n: 'KLAB SENDVICH', p: 45000}
-            ],
-            'milliy': [
-                {n: 'Palov', p: 25000}, {n: 'Manti', p: 18000}, {n: 'Sho\'rva', p: 20000}
-            ],
-            // Примеры меню для новых категорий
-            'dorxona': [
-                {n: 'Paratsetamol (tab)', p: 5000}, {n: 'Kardiamagnil (tab)', p: 25000}, {n: 'Krem (shifobaxsh)', p: 35000}
-            ],
-            'market': [
-                {n: 'Kolbasa (shifokor)', p: 65000}, {n: 'Pishloq (Golland)', p: 80000}, {n: 'Sharbat (olma)', p: 12000}
-            ]
+            'burger': [{n: 'Big Burger', p: 45000}, {n: 'Gamburger', p: 35000}, {n: 'Chizburger', p: 40000}],
+            'guna': [{n: 'GUMA', p: 5000}, {n: 'PIRASHKI', p: 5000}],
+            'grill': [{n: 'KOTA GRILL', p: 65000}, {n: 'YARIM GRILL', p: 35000}],
+            'somsa': [{n: 'AKAXON SOMSA (Go\'shtli)', p: 8000}, {n: 'Qovoqli Somsa', p: 5000}],
+            'tim': [{n: 'TIM LAVASH (Mol)', p: 35000}, {n: 'TIM LAVASH (Tovuq)', p: 33000}],
+            'milliy': [{n: 'Osh (Palov)', p: 25000}, {n: 'Sho\'rva', p: 20000}],
+            'dorxona': [{n: 'Paratsetamol', p: 5000}, {n: 'Sitramon', p: 4000}],
+            'market': [{n: 'Pepsi 1.5L', p: 13000}, {n: 'Non', p: 3000}]
         };
 
         function showMenu(id) {
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('menu-page').style.display = 'block';
             let container = document.getElementById('menu-content');
-            let html = `<h2 style="text-align:center;">${id.toUpperCase()}</h2>`;
-            
+            let html = `<h2>${id.toUpperCase()}</h2>`;
             data[id].forEach(item => {
                 html += `
                     <div class="food-item">
-                        <div><b>${item.n}</b><br><span style="color:#2e7d32">${item.p.toLocaleString()} so'm</span></div>
+                        <div><b>${item.n}</b><br>${item.p.toLocaleString()} so'm</div>
                         <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
                     </div>`;
             });
@@ -183,20 +143,16 @@
             totalPrice += price;
             document.getElementById('footer').style.display = 'block';
             document.querySelector('.order-confirm').innerText = `TASDIQLASH: ${totalPrice.toLocaleString()} so'm`;
-            tg.HapticFeedback.impactOccurred('medium');
         }
 
         function goBack() {
             document.getElementById('main-page').style.display = 'grid';
             document.getElementById('menu-page').style.display = 'none';
-            cart = [];
-            totalPrice = 0;
-            document.getElementById('footer').style.display = 'none';
         }
 
         function finishOrder() {
             if (cart.length > 0) {
-                tg.sendData(JSON.stringify(cart));
+                tg.sendData(JSON.stringify({selected_res: 'order', cart: cart}));
                 tg.close();
             }
         }
