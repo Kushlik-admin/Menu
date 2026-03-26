@@ -19,8 +19,6 @@
         #card-somsa { background-image: url('https://img.freepik.com/free-photo/eastern-food-patties-with-meat-nuts_23-2148128131.jpg'); }
         #card-tim { background-image: url('https://img.freepik.com/free-photo/shawarma-with-meat-vegetables_144627-30372.jpg'); }
         #card-milliy { background-image: url('https://img.freepik.com/free-photo/pilaf-with-meat-carrots_23-2148332148.jpg'); }
-        #card-dorxona { background-image: url('https://img.freepik.com/free-photo/pills-capsules-white-background_23-2148524671.jpg'); }
-        #card-market { background-image: url('https://img.freepik.com/free-photo/shopping-bag-cart_23-2148879372.jpg'); }
 
         .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
@@ -33,7 +31,7 @@
 </head>
 <body>
     <div id="main-page">
-        <div class="promo-banner">🎁 AKSIYA: 6-chi buyurtma yetkazib berish BEPUL!</div>
+        <div class="promo-banner">🎁 AKSIYA: 6-chi buyurtma bepul!</div>
         <div class="main-grid">
             <div class="card" id="card-burger" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
             <div class="card" id="card-guma" onclick="showMenu('guna')"><b>GUMA & PIRASHKI</b></div>
@@ -41,8 +39,8 @@
             <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>AKAHON SOMSA</b></div>
             <div class="card" id="card-tim" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
             <div class="card" id="card-milliy" onclick="showMenu('milliy')"><b>MILLIY TAOMLAR</b></div>
-            <div class="card" id="card-dorxona" onclick="sendCallRequest('DORXONA')"><b>DORXONA</b></div>
-            <div class="card" id="card-market" onclick="sendCallRequest('KUCHLIK MARKET')"><b>KUCHLIK MARKET</b></div>
+            <div class="card" onclick="sendCallRequest('DORXONA')"><b>DORXONA</b></div>
+            <div class="card" onclick="sendCallRequest('KUCHLIK MARKET')"><b>KUCHLIK MARKET</b></div>
         </div>
     </div>
 
@@ -65,10 +63,10 @@
         const data = {
             'burger': [
                 {cat: 'LAVASH', n: 'Lavash Big', p: 40000}, {cat: 'LAVASH', n: 'Lavash Mini', p: 35000},
-                {cat: 'LAVASH', n: 'Lavash Big (pishloqli)', p: 45000}, {cat: 'LAVASH', n: 'Lavash Mini (pishloqli)', p: 40000},
+                {cat: 'LAVASH', n: 'Lavash Big (pishloqli)', p: 45000}, {cat: 'LAVASH', n: 'Super Lavash', p: 55000},
                 {cat: 'BURGER', n: 'Big Burger', p: 45000}, {cat: 'BURGER', n: 'Gamburger', p: 40000},
-                {cat: 'XOD-DOG', n: 'Hot-Dog', p: 22000}, {cat: 'XOD-DOG', n: 'Hot-Dog Qazi', p: 42000},
-                {cat: 'ICHIMLIK', n: 'Pepsi 1.5L', p: 15000}, {cat: 'ICHIMLIK', n: 'Coca-Cola 1.5L', p: 15000}
+                {cat: 'XOD-DOG', n: 'Hot-Dog Qazi', p: 42000}, {cat: 'XOD-DOG', n: 'Assorti', p: 33000},
+                {cat: 'ICHIMLIK', n: 'Pepsi 1.5L', p: 15000}, {cat: 'ICHIMLIK', n: 'Sok 1L', p: 14000}
             ],
             'guna': [
                 {n: 'Kartoshkali', p: 4000}, {n: 'Go\'shtli', p: 5000}, {n: 'Guma', p: 5000},
@@ -90,9 +88,7 @@
                 {cat: 'DANAR', n: 'MEGA', p: 42000}, {cat: 'TIM', n: 'Klab Sendvich', p: 48000},
                 {cat: 'ICHIMLIK', n: 'Gorilla', p: 14000}, {cat: 'ICHIMLIK', n: 'Flesh', p: 13000}
             ],
-            'milliy': [
-                {n: 'Osh pors', p: 25000}, {n: 'Manti (dona)', p: 6000}
-            ]
+            'milliy': [ {n: 'Osh pors', p: 25000}, {n: 'Manti (dona)', p: 6000} ]
         };
 
         function sendCallRequest(target) {
