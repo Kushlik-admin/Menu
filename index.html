@@ -7,78 +7,27 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
-        
-        .promo-banner { 
-            background: linear-gradient(135deg, #ffc107, #ff9800); 
-            color: black; padding: 12px; border-radius: 12px; 
-            text-align: center; margin-bottom: 15px; font-weight: bold; 
-            border: 2px dashed #d35400; 
-        }
-
+        .promo-banner { background: linear-gradient(135deg, #ffc107, #ff9800); color: black; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 2px dashed #d35400; }
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-        .card {
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            cursor: pointer;
-            height: 115px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            overflow: hidden; 
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.45); /* Затемнение для читаемости текста */
-        }
-
-        .card b {
-            position: relative;
-            z-index: 1;
-            color: white;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            font-weight: 800;
-        }
-
-        /* --- ССЫЛКИ НА НОВЫЕ ФОТО --- */
-        #card-burger { background-image: url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400'); }
-        #card-guma { background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg?w=400'); }
-        #card-grill { background-image: url('https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400'); }
+        .card { position: relative; background-size: cover; background-position: center; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.15); cursor: pointer; height: 115px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid white; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.45); }
+        .card b { position: relative; z-index: 1; color: white; text-shadow: 1px 1px 4px rgba(0,0,0,0.9); text-transform: uppercase; font-size: 0.85rem; font-weight: 800; }
         
-        /* 2. Обновленная Самса */
-        #card-somsa { background-image: url('https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg?w=400'); }
-        
-        /* 1. Аппетитный Лаваш */
-        #card-tim { background-image: url('https://img.freepik.com/free-photo/side-view-doner-kebab-with-veggies-white-sauce-pita-slice-tomatoes-lettuce-on-wooden-board_141793-4712.jpg?w=400'); }
-        
-        /* 5. Национальные блюда (Плов/Шурпа) */
-        #card-milliy { background-image: url('https://img.freepik.com/free-photo/oriental-shish-kebab-with-vegetables_140725-3843.jpg?w=400'); }
-        
-        /* 3. Фото для Аптеки */
-        #card-dorxona { background-image: url('https://images.unsplash.com/photo-1587854680352-936b22b91030?w=400'); }
-        
-        /* 4. Фото для Маркета */
-        #card-market { background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=400'); }
-
-        .card:active { transform: scale(0.95); }
+        #card-burger { background-image: url('https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg'); }
+        #card-guma { background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg'); }
+        #card-grill { background-image: url('https://img.freepik.com/free-photo/grilled-chicken-legs-with-vegetables_23-2148189814.jpg'); }
+        #card-somsa { background-image: url('https://img.freepik.com/free-photo/eastern-food-patties-with-meat-nuts_23-2148128131.jpg'); }
+        #card-tim { background-image: url('https://img.freepik.com/free-photo/shawarma-with-meat-vegetables_144627-30372.jpg'); }
+        #card-milliy { background-image: url('https://img.freepik.com/free-photo/pilaf-with-meat-carrots_23-2148332148.jpg'); }
+        #card-dorxona { background-image: url('https://img.freepik.com/free-photo/pills-capsules-white-background_23-2148524671.jpg'); }
+        #card-market { background-image: url('https://img.freepik.com/free-photo/shopping-bag-cart_23-2148879372.jpg'); }
 
         .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .add-btn { background: #ffc107; border: none; width: 40px; height: 40px; border-radius: 10px; font-weight: bold; font-size: 20px; }
-
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .section-title { background: #f8f8f8; padding: 5px 10px; font-size: 0.8rem; font-weight: bold; color: #555; margin-top: 10px; }
+        .weight-controls { display: flex; align-items: center; gap: 8px; }
+        .btn-ctrl { background: #ffc107; border: none; width: 28px; height: 28px; border-radius: 5px; font-weight: bold; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 100; }
         .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; }
     </style>
 </head>
@@ -89,72 +38,136 @@
             <div class="card" id="card-burger" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
             <div class="card" id="card-guma" onclick="showMenu('guna')"><b>GUMA & PIRASHKI</b></div>
             <div class="card" id="card-grill" onclick="showMenu('grill')"><b>GRILL</b></div>
-            <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>AKAXON SOMSA</b></div>
+            <div class="card" id="card-somsa" onclick="showMenu('somsa')"><b>AKAHON SOMSA</b></div>
             <div class="card" id="card-tim" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
             <div class="card" id="card-milliy" onclick="showMenu('milliy')"><b>MILLIY TAOMLAR</b></div>
-            <div class="card" id="card-dorxona" onclick="showMenu('dorxona')"><b>DORXONA</b></div>
-            <div class="card" id="card-market" onclick="showMenu('market')"><b>KUCHLIK MARKET</b></div>
+            <div class="card" id="card-dorxona" onclick="sendCallRequest('DORXONA')"><b>DORXONA</b></div>
+            <div class="card" id="card-market" onclick="sendCallRequest('KUCHLIK MARKET')"><b>KUCHLIK MARKET</b></div>
         </div>
     </div>
 
     <div id="menu-page" class="menu-page">
-        <button onclick="goBack()" style="padding:10px; width:100%; margin-bottom:15px; border-radius:10px; border:none; background:#eee;">🔙 Orqaga</button>
+        <button onclick="goBack()" style="width:100%; padding:10px; border-radius:10px; border:none; background:#eee; margin-bottom:10px;">🔙 Orqaga</button>
         <div id="menu-content"></div>
     </div>
 
     <div class="footer" id="footer">
-        <button class="order-confirm" onclick="finishOrder()">TASDIQLASH</button>
+        <button class="order-confirm" id="order-btn" onclick="finishOrder()">TASDIQLASH</button>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
         let cart = [];
-        let totalPrice = 0;
+        let total = 0;
+        let tempWeights = {};
 
         const data = {
-            'burger': [{n: 'Big Burger', p: 45000}, {n: 'Gamburger', p: 35000}, {n: 'Chizburger', p: 40000}],
-            'guna': [{n: 'GUMA', p: 5000}, {n: 'PIRASHKI', p: 5000}],
-            'grill': [{n: 'KOTA GRILL', p: 65000}, {n: 'YARIM GRILL', p: 35000}],
-            'somsa': [{n: 'AKAXON SOMSA (Go\'shtli)', p: 8000}, {n: 'Qovoqli Somsa', p: 5000}],
-            'tim': [{n: 'TIM LAVASH (Mol)', p: 35000}, {n: 'TIM LAVASH (Tovuq)', p: 33000}],
-            'milliy': [{n: 'Osh (Palov)', p: 25000}, {n: 'Sho\'rva', p: 20000}],
-            'dorxona': [{n: 'Paratsetamol', p: 5000}, {n: 'Sitramon', p: 4000}],
-            'market': [{n: 'Pepsi 1.5L', p: 13000}, {n: 'Non', p: 3000}]
+            'burger': [
+                {cat: 'LAVASH', n: 'Lavash Big', p: 40000}, {cat: 'LAVASH', n: 'Lavash Mini', p: 35000},
+                {cat: 'LAVASH', n: 'Lavash Big (pishloqli)', p: 45000}, {cat: 'LAVASH', n: 'Lavash Mini (pishloqli)', p: 40000},
+                {cat: 'BURGER', n: 'Big Burger', p: 45000}, {cat: 'BURGER', n: 'Gamburger', p: 40000},
+                {cat: 'XOD-DOG', n: 'Hot-Dog', p: 22000}, {cat: 'XOD-DOG', n: 'Hot-Dog Qazi', p: 42000},
+                {cat: 'ICHIMLIK', n: 'Pepsi 1.5L', p: 15000}, {cat: 'ICHIMLIK', n: 'Coca-Cola 1.5L', p: 15000}
+            ],
+            'guna': [
+                {n: 'Kartoshkali', p: 4000}, {n: 'Go\'shtli', p: 5000}, {n: 'Guma', p: 5000},
+                {n: 'Sasiskali', p: 5000}, {n: 'Cheburek', p: 8000}, {n: 'Sirli', p: 5000}, {n: 'Karomli', p: 4000}
+            ],
+            'grill': [
+                {n: 'KOTA GRILL', p: 60000, t: 'p'}, {n: 'ORTANCHA GRILL', p: 55000, t: 'p'},
+                {n: 'KICHKINA GRILL', p: 50000, t: 'p'},
+                {n: 'KFS (1kg=100k)', p: 100000, t: 'w', min: 300, step: 100}
+            ],
+            'somsa': [
+                {cat: 'SHASHLIK', n: 'QIYMA', p: 8000}, {cat: 'SHASHLIK', n: 'TOVQ', p: 8000},
+                {cat: 'SHASHLIK', n: 'BALIQ', p: 10000}, {cat: 'SHASHLIK', n: 'QÕY JAZ', p: 16000},
+                {cat: 'SOMSA', n: 'QÕY GOSHLI', p: 18000}, {cat: 'SOMSA', n: 'MOL GOSHLI', p: 13000},
+                {cat: 'SOMSA', n: 'KARTOSHKALI', p: 5000}
+            ],
+            'tim': [
+                {cat: 'LAVASH', n: 'BIG', p: 35000}, {cat: 'LAVASH', n: 'SIR', p: 37000},
+                {cat: 'DANAR', n: 'MEGA', p: 42000}, {cat: 'TIM', n: 'Klab Sendvich', p: 48000},
+                {cat: 'ICHIMLIK', n: 'Gorilla', p: 14000}, {cat: 'ICHIMLIK', n: 'Flesh', p: 13000}
+            ],
+            'milliy': [
+                {n: 'Osh pors', p: 25000}, {n: 'Manti (dona)', p: 6000}
+            ]
         };
+
+        function sendCallRequest(target) {
+            tg.sendData(JSON.stringify({action: "call", target: target}));
+            tg.close();
+        }
 
         function showMenu(id) {
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('menu-page').style.display = 'block';
-            let container = document.getElementById('menu-content');
-            let html = `<h2>${id.toUpperCase()}</h2>`;
-            data[id].forEach(item => {
-                html += `
-                    <div class="food-item">
-                        <div><b>${item.n}</b><br>${item.p.toLocaleString()} so'm</div>
-                        <button class="add-btn" onclick="add('${item.n}', ${item.p})">+</button>
-                    </div>`;
+            let html = `<h2 style="text-align:center;">${id.toUpperCase()}</h2>`;
+            let lastCat = "";
+            
+            data[id].forEach((item, idx) => {
+                if (item.cat && item.cat !== lastCat) {
+                    html += `<div class="section-title">${item.cat}</div>`;
+                    lastCat = item.cat;
+                }
+                
+                if (item.t === 'w') {
+                    let w = tempWeights[item.n] || item.min;
+                    tempWeights[item.n] = w;
+                    html += `
+                        <div class="item-row">
+                            <div><b>${item.n}</b><br><small id="p-${idx}">${(item.p * w / 1000).toLocaleString()} so'm</small></div>
+                            <div class="weight-controls">
+                                <button class="btn-ctrl" onclick="chW('${id}',${idx},-1)">-</button>
+                                <b id="w-${idx}">${w}g</b>
+                                <button class="btn-ctrl" onclick="chW('${id}',${idx},1)">+</button>
+                                <button onclick="addW('${id}',${idx})" style="background:#4CAF50; color:white; border:none; padding:8px; border-radius:5px;">OK</button>
+                            </div>
+                        </div>`;
+                } else {
+                    html += `
+                        <div class="item-row">
+                            <div><b>${item.n}</b><br><small>${item.p.toLocaleString()} so'm</small></div>
+                            <button onclick="add('${item.n}', ${item.p})" style="background:#ffc107; border:none; padding:8px 18px; border-radius:8px; font-weight:bold;">+</button>
+                        </div>`;
+                }
             });
-            container.innerHTML = html;
+            document.getElementById('menu-content').innerHTML = html;
         }
 
-        function add(name, price) {
-            cart.push({name: name, price: price});
-            totalPrice += price;
+        function chW(rId, idx, dir) {
+            let item = data[rId][idx];
+            let next = tempWeights[item.n] + (dir * item.step);
+            if (next >= item.min) {
+                tempWeights[item.n] = next;
+                document.getElementById(`w-${idx}`).innerText = next + 'g';
+                document.getElementById(`p-${idx}`).innerText = (item.p * next / 1000).toLocaleString() + " so'm";
+            }
+        }
+
+        function addW(rId, idx) {
+            let item = data[rId][idx];
+            add(`${item.n} (${tempWeights[item.n]}g)`, (item.p * tempWeights[item.n] / 1000));
+        }
+
+        function add(n, p) {
+            cart.push({name: n, price: p});
+            total += p;
             document.getElementById('footer').style.display = 'block';
-            document.querySelector('.order-confirm').innerText = `TASDIQLASH: ${totalPrice.toLocaleString()} so'm`;
+            document.getElementById('order-btn').innerText = `TASDIQLASH: ${total.toLocaleString()} so'm`;
+            tg.HapticFeedback.impactOccurred('light');
         }
 
         function goBack() {
             document.getElementById('main-page').style.display = 'grid';
             document.getElementById('menu-page').style.display = 'none';
+            document.getElementById('footer').style.display = 'none';
+            cart = []; total = 0;
         }
 
         function finishOrder() {
-            if (cart.length > 0) {
-                tg.sendData(JSON.stringify({selected_res: 'order', cart: cart}));
-                tg.close();
-            }
+            if (cart.length > 0) { tg.sendData(JSON.stringify(cart)); tg.close(); }
         }
     </script>
 </body>
