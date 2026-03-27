@@ -6,119 +6,143 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; margin: 0; padding: 10px; padding-bottom: 110px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { position: relative; height: 120px; border-radius: 15px; background-size: cover; background-position: center; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; overflow: hidden; }
-        .card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 10px; padding-bottom: 120px; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { position: relative; height: 110px; border-radius: 15px; background-size: cover; background-position: center; border: 2px solid white; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; overflow: hidden; }
+        .card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
         .card b { position: relative; z-index: 1; text-align: center; font-size: 0.8rem; text-transform: uppercase; }
         
-        .menu-page { display: none; background: white; border-radius: 20px; padding: 15px; min-height: 80vh; }
+        .menu-page { display: none; background: white; border-radius: 20px; padding: 15px; min-height: 85vh; }
         .item-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .item-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; }
-        .cat-h { background: #eee; padding: 5px 10px; font-weight: bold; font-size: 0.7rem; margin-top: 10px; border-radius: 5px; }
+        .item-info { flex: 1; }
+        .cat-h { background: #ffc107; padding: 5px 10px; font-weight: bold; font-size: 0.75rem; border-radius: 5px; margin-top: 15px; }
         
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); display: none; z-index: 1000; }
         .btn-group { display: flex; gap: 10px; }
-        .btn-add { flex: 1; background: #f39c12; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
-        .btn-go { flex: 1; background: #27ae60; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
+        .btn-more { flex: 1; background: #ff9800; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; }
+        .btn-order { flex: 1; background: #2e7d32; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; }
+        
+        .weight-ctrl { display: flex; align-items: center; gap: 10px; background: #eee; padding: 5px; border-radius: 8px; }
+        .w-btn { border: none; background: #fff; width: 30px; height: 30px; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div id="main">
-        <div class="grid">
+    <div id="main-view">
+        <div class="main-grid">
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg')" onclick="openMenu('burger')"><b>BURGER PRO</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/side-view-doner-kebab-with-veggies-white-sauce-pita-slice-tomatoes-lettuce-on-wooden-board_141793-4712.jpg')" onclick="openMenu('tim')"><b>TIM LAVASH</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg')" onclick="openMenu('somsa')"><b>AKAHON SOMSA</b></div>
-            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg')" onclick="openMenu('guna')"><b>GUMA & PIRASHKI</b></div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg')" onclick="openMenu('guma')"><b>GUMA & PIRASHKI</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/grilled-chicken-legs-with-vegetables_23-2148189814.jpg')" onclick="openMenu('grill')"><b>GRILL & KFS</b></div>
-            <div class="card" style="background-color: #c0392b;" onclick="openMenu('dorxona')"><b>DORXONA</b></div>
-            <div class="card" style="background-color: #2c3e50;" onclick="openMenu('moto')"><b>MOTO USTA👨‍🔧</b></div>
+            <div class="card" style="background-color: #d32f2f;" onclick="openMenu('dorxona')"><b>🏥 DORXONA</b></div>
+            <div class="card" style="background-color: #455a64;" onclick="openMenu('moto')"><b>👨‍🔧 MOTO USTA</b></div>
         </div>
     </div>
 
-    <div id="menu" class="menu-page">
-        <button onclick="back()" style="width:100%; padding:10px; margin-bottom:10px;">🔙 ORQAGA</button>
-        <div id="content"></div>
+    <div id="menu-view" class="menu-page">
+        <button onclick="closeMenu()" style="width:100%; padding:10px; margin-bottom:15px; border:none; border-radius:10px;">🔙 ORQAGA</button>
+        <div id="menu-content"></div>
     </div>
 
-    <div class="footer" id="footer">
+    <div class="footer" id="main-footer">
         <div class="btn-group">
-            <button class="btn-add" onclick="back()">➕ YANA</button>
-            <button class="btn-go" id="total-btn" onclick="order()">BUYURTMA</button>
+            <button class="btn-more" onclick="closeMenu()">➕ YANA QO'SHISH</button>
+            <button class="btn-order" id="total-btn" onclick="finishOrder()">TASDIQLASH</button>
         </div>
     </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        let cart = [];
-        let total = 0;
+<script>
+    let tg = window.Telegram.WebApp;
+    let cart = [];
+    let total = 0;
+    let kfsWeight = 300;
 
-        const db = {
-            'somsa': { id: "8474161465", loc: "41.003998, 69.235951", items: [
-                {c:'SHASHLIK', n:'QIYMA', p:8000}, {c:'SHASHLIK', n:'TOVQ', p:8000}, {c:'SHASHLIK', n:'JIGAR', p:8000}, {c:'SHASHLIK', n:'BALIQ', p:10000}, {c:'SHASHLIK', n:'MOL JAZ', p:15000}, {c:'SHASHLIK', n:'QÕY JAZ', p:16000},
-                {c:'SOMSA', n:'QÕY GOSHLI', p:18000}, {c:'SOMSA', n:'MOL GOSHLI', p:13000}, {c:'SOMSA', n:'TOVUQ GOSHLI', p:8000}, {c:'SOMSA', n:'KARTOSHKALI', p:5000}, {c:'SOMSA', n:'KOSA SOMSA', p:15000}, {c:'SOMSA', n:'QOVOQLI', p:5000}, {c:'SOMSA', n:'ISMOLOQLI', p:5000}
-            ]},
-            'tim': { id: "6945087548", loc: "41.002555, 69.233649", items: [
-                {c:'LAVASH', n:'BIG', p:35000}, {c:'LAVASH', n:'MINI', p:30000}, {c:'LAVASH', n:'SIR', p:37000},
-                {c:'DANAR', n:'BIG', p:32000}, {c:'DANAR', n:'MEGA', p:42000},
-                {c:'TIM', n:'XAGI', p:35000}, {c:'TIM', n:'QAZLI XODOG', p:30000}, {c:'TIM', n:'KLAB SENDVICH', p:48000},
-                {c:'ICHIMLIK', n:'PEPSI 1.5 L', p:17000}, {c:'ICHIMLIK', n:'SOK 1 L', p:15000}, {c:'ICHIMLIK', n:'GARILA', p:14000}
-            ]},
-            'burger': { id: "6680569613", loc: "41.003, 69.234", items: [
-                {c:'LAVASH', n:'LAVASH BIG', p:40000}, {c:'BURGER', n:'BIG BURGER', p:45000}, {c:'XOD-DOG', n:'HOT-DOG QAZI', p:42000}, {c:'DONAR', n:'DONAR BOX', p:56000}
-            ]},
-            'guna': { id: "8626123558", loc: "41.004533, 69.237082", items: [
-                {n:'GOSHLI', p:5000}, {n:'GUMA', p:5000}, {n:'SASISKALI', p:5000}, {n:'CHEBUREK', p:8000}, {n:'SIRLI', p:5000}
-            ]},
-            'grill': { id: "8626123558", loc: "41.004533, 69.237082", items: [
-                {n:'KOTA GRILL', p:60000}, {n:'ORTANCHA GRIL', p:55000}, {n:'KFS 1 KG', p:100000}
-            ]}
-        };
+    const db = {
+        'somsa': { id: "8474161465", loc: "41.003998, 69.235951", items: [
+            {c:'SHASHLIK', n:'QIYMA', p:8000}, {c:'SHASHLIK', n:'TOVQ', p:8000}, {c:'SHASHLIK', n:'JIGAR', p:8000}, {c:'SHASHLIK', n:'BALIQ', p:10000}, {c:'SHASHLIK', n:'MOL JAZ', p:15000}, {c:'SHASHLIK', n:'QÕY JAZ', p:16000},
+            {c:'SOMSA', n:'QÕY GOSHLI', p:18000}, {c:'SOMSA', n:'MOL GOSHLI', p:13000}, {c:'SOMSA', n:'TOVUQ GOSHLI', p:8000}, {c:'SOMSA', n:'KARTOSHKALI', p:5000},
+            {c:'SOMSA', n:'KOSA SOMSA', p:15000}, {c:'SOMSA', n:'QOVOQLI', p:5000}, {c:'SOMSA', n:'ISMOLOQLI', p:5000}
+        ]},
+        'tim': { id: "6945087548", loc: "41.002555, 69.233649", items: [
+            {c:'LAVASH', n:'BIG', p:35000}, {c:'LAVASH', n:'MINI', p:30000}, {c:'LAVASH', n:'SIR', p:37000},
+            {c:'DANAR', n:'BIG', p:32000}, {c:'DANAR', n:'MEGA', p:42000},
+            {c:'TIM', n:'XAGI', p:35000}, {c:'TIM', n:'QAZLI XODOG', p:30000}, {c:'TIM', n:'Klab Sendvich', p:48000},
+            {c:'XOD-DOG', n:'SUPR', p:25000}, {c:'XOD-DOG', n:'MINI', p:15000}, {c:'XOD-DOG', n:'TIM XOD-DOG', p:29000},
+            {c:'ICHIMLIK', n:'Koka Kola 1.5L', p:17000}, {c:'ICHIMLIK', n:'Pepsi 1.5L', p:17000}, {c:'ICHIMLIK', n:'Sok 1L', p:15000}
+        ]},
+        'burger': { id: "6680569613", loc: "41.003, 69.234", items: [
+            {c:'LAVASH', n:'LAVASH BIG', p:40000}, {c:'BURGER', n:'BIG BURGER', p:45000}, {c:'DONAR', n:'DONAR BOX', p:56000}, {c:'ZAKUSKI', n:'Strips (7 ta)', p:34000}
+        ]},
+        'guma': { id: "8626123558", loc: "41.004533, 69.237082", items: [
+            {n:'KARTOSHKALI', p:4000}, {n:'GOSHLI', p:5000}, {n:'GUMA', p:5000}, {n:'SASISKALI', p:5000}, {n:'CHEBUREK', p:8000}, {n:'SIRLI', p:5000}, {n:'KAROMLI', p:4000}
+        ]},
+        'grill': { id: "8626123558", loc: "41.004533, 69.237082", items: [
+            {n:'KOTA GRILL', p:60000}, {n:'ORTANCHA GRIL', p:55000}, {n:'KICHKINA GRIL', p:50000},
+            {n:'KFS 1 кг', p:100000, type: 'weight'}
+        ]}
+    };
 
-        function openMenu(key) {
-            document.getElementById('main').style.display = 'none';
-            document.getElementById('menu').style.display = 'block';
-            let cont = document.getElementById('content');
-            
-            if(key === 'dorxona') {
-                cont.innerHTML = `<h3>DORXONA</h3><p>📞 +998909299461</p><button onclick="special('🏥 DORXONA','41.004453, 69.237157')">BOG'LANISH</button>`;
-            } else if(key === 'moto') {
-                cont.innerHTML = `<h3>MOTO USTA</h3><p>📞 +99890XXXXXXX</p><button onclick="special('👨‍🔧 MOTO USTA','41.017336, 69.232820')">MANZILNI OLISH</button>`;
-            } else {
-                let html = `<h2>${key.toUpperCase()}</h2>`;
-                let cat = "";
-                db[key].items.forEach(i => {
-                    if(i.c && i.c !== cat) { html += `<div class="cat-h">${i.c}</div>`; cat = i.c; }
-                    html += `<div class="item-row">
-                        <span><b>${i.n}</b><br>${i.p} sum</span>
-                        <button onclick="add('${i.n}',${i.p},'${key}')">+</button>
-                    </div>`;
-                });
-                cont.innerHTML = html;
-            }
+    function openMenu(key) {
+        document.getElementById('main-view').style.display = 'none';
+        document.getElementById('menu-view').style.display = 'block';
+        let content = document.getElementById('menu-content');
+        
+        if(key === 'dorxona') {
+            content.innerHTML = `<h3>DORXONA 🏥</h3><p>MUROJAT UCHUN: <b>+998909299461</b></p><button onclick="special('DORXONA','41.004453, 69.237157')">📞 BOG'LANISH</button>`;
+        } else if(key === 'moto') {
+            content.innerHTML = `<h3>MOTO USTA 👨‍🔧</h3><p>Xizmatlar: Moy almashtirish, Elektrika, Karbyurator, Motor.</p><p>MUROJAT UCHUN: [NOMER]</p><button onclick="special('MOTO','41.017336, 69.232820')">📍 MANZIL</button>`;
+        } else {
+            let html = `<h3>${key.toUpperCase()}</h3>`;
+            let curCat = "";
+            db[key].items.forEach(item => {
+                if(item.c && item.c !== curCat) { html += `<div class="cat-h">${item.c}</div>`; curCat = item.c; }
+                html += `<div class="item-row"><div class="item-info"><b>${item.n}</b><br>${item.p} sum</div>`;
+                if(item.type === 'weight') {
+                    html += `<div class="weight-ctrl"><button class="w-btn" onclick="chW(-50)">-</button><span id="w-val">${kfsWeight}g</span><button class="w-btn" onclick="chW(50)">+</button><button onclick="addW('${item.n}',${item.p},'${key}')">OK</button></div>`;
+                } else {
+                    html += `<button onclick="addToCart('${item.n}',${item.p},'${key}')" style="background:#ffc107; border:none; padding:8px 15px; border-radius:8px; font-weight:bold;">+</button>`;
+                }
+                html += `</div>`;
+            });
+            content.innerHTML = html;
         }
+    }
 
-        function add(n, p, r) {
-            cart.push({n, p, r, cook: db[r].id, loc: db[r].loc});
-            total += p;
-            document.getElementById('footer').style.display = 'block';
-            document.getElementById('total-btn').innerText = `OK: ${total} sum`;
-        }
+    function chW(v) { kfsWeight = Math.max(300, kfsWeight + v); document.getElementById('w-val').innerText = kfsWeight + 'g'; }
 
-        function back() {
-            document.getElementById('main').style.display = 'block';
-            document.getElementById('menu').style.display = 'none';
-        }
+    function addToCart(n, p, r) {
+        cart.push({name: n, price: p, res: r, cook: db[r].id, loc: db[r].loc});
+        total += p;
+        updateFooter();
+    }
 
-        function order() {
-            tg.sendData(JSON.stringify({a: "order", cart, total}));
-            tg.close();
-        }
+    function addW(n, p, r) {
+        let finalP = (p * kfsWeight) / 1000;
+        cart.push({name: n + " (" + kfsWeight + "g)", price: finalP, res: r, cook: db[r].id, loc: db[r].loc});
+        total += finalP;
+        updateFooter();
+    }
 
-        function special(t, l) {
-            tg.sendData(JSON.stringify({a: "special", t, l}));
-            tg.close();
-        }
-    </script>
+    function updateFooter() {
+        document.getElementById('main-footer').style.display = 'block';
+        document.getElementById('total-btn').innerText = `OK: ${total} sum`;
+        tg.HapticFeedback.impactOccurred('light');
+    }
+
+    function closeMenu() {
+        document.getElementById('main-view').style.display = 'block';
+        document.getElementById('menu-view').style.display = 'none';
+    }
+
+    function finishOrder() {
+        tg.sendData(JSON.stringify({action: "order", items: cart, total: total}));
+        tg.close();
+    }
+
+    function special(type, loc) {
+        tg.sendData(JSON.stringify({action: "special", type: type, loc: loc}));
+        tg.close();
+    }
+</script>
 </body>
 </html>
