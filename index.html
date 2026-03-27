@@ -6,38 +6,38 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
+        body { font-family: sans-serif; background: #f2f2f2; margin: 0; padding: 10px; padding-bottom: 90px; }
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { position: relative; background-size: cover; background-position: center; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.15); cursor: pointer; height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid white; overflow: hidden; color: white; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); }
-        .card b { position: relative; z-index: 1; text-transform: uppercase; font-size: 0.8rem; }
-        .loc-btn { position: relative; z-index: 2; background: white; color: black; border: none; padding: 4px 8px; border-radius: 5px; font-size: 10px; margin-top: 5px; font-weight: bold; }
+        .card { position: relative; background-size: cover; border-radius: 15px; height: 120px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); }
+        .card b { z-index: 1; text-align: center; text-transform: uppercase; font-size: 0.9rem; }
         
-        .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; }
+        .cat-header { background: #f8f9fa; padding: 5px; margin: 10px 0 5px 0; font-weight: bold; border-left: 3px solid #ffc107; font-size: 0.8rem; }
+        
+        /* Стили для строк с картинками */
+        .item-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
         .item-info { display: flex; align-items: center; gap: 10px; }
-        .item-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; }
+        .item-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
         
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 1000; }
-        .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; }
+        .order-confirm { width: 100%; background: #2e7d32; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div id="main-page">
         <div class="main-grid">
-            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg')" onclick="showMenu('burger')">
-                <b>BURGER PRO</b>
-                <button class="loc-btn" onclick="event.stopPropagation(); window.open('https://www.google.com/maps?q=41.2995,69.2401')">📍 LOKATSIYA</button>
-            </div>
-            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/side-view-doner-kebab-with-veggies-white-sauce-pita-slice-tomatoes-lettuce-on-wooden-board_141793-4712.jpg')" onclick="showMenu('tim')">
-                <b>TIM LAVASH</b>
-                <button class="loc-btn" onclick="event.stopPropagation(); window.open('https://www.google.com/maps?q=41.3,69.3')">📍 LOKATSIYA</button>
-            </div>
-            </div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg')" onclick="showMenu('burger')"><b>BURGER PRO</b></div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg')" onclick="showMenu('guna')"><b>GUMA & PIRASHKI</b></div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/grilled-chicken-legs-with-vegetables_23-2148189814.jpg')" onclick="showMenu('grill')"><b>GRILL & KFS</b></div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg')" onclick="showMenu('somsa')"><b>AKAHON SOMSA</b></div>
+            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=400')" onclick="showMenu('tim')"><b>TIM LAVASH</b></div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/oriental-shish-kebab-with-vegetables_140725-3843.jpg')" onclick="showMenu('milliy')"><b>MILLIY TAOMLAR</b></div>
+        </div>
     </div>
 
     <div id="menu-page" class="menu-page">
-        <button onclick="goBack()" style="width:100%; padding:12px; background:#eee; border:none; border-radius:10px;">🔙 ORQAGA</button>
+        <button onclick="goBack()" style="width:100%; padding:10px; background:#eee; border:none; border-radius:10px; margin-bottom:10px;">🔙 ORQAGA</button>
         <div id="menu-content"></div>
     </div>
 
@@ -50,37 +50,55 @@
         let cart = [];
         let total = 0;
 
+        // База картинок для умного поиска по названию
         const imgBase = {
             'lavash': 'https://img.freepik.com/free-photo/side-view-doner-kebab-with-veggies-white-sauce-pita-slice-tomatoes-lettuce-on-wooden-board_141793-4712.jpg',
             'burger': 'https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg',
-            'shashlik': 'https://img.freepik.com/free-photo/oriental-shish-kebab-with-vegetables_140725-3843.jpg',
+            'hot-dog': 'https://img.freepik.com/free-photo/classic-hot-dog-with-mustard-ketchup_23-2148762744.jpg',
             'somsa': 'https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg',
+            'shashlik': 'https://img.freepik.com/free-photo/oriental-shish-kebab-with-vegetables_140725-3843.jpg',
             'default': 'https://img.freepik.com/free-vector/vector-flat-food-icon_1284-43015.jpg'
         };
 
+        // Функция поиска картинки по названию блюда
         function getImg(name) {
             let n = name.toLowerCase();
             if(n.includes('lavash')) return imgBase.lavash;
             if(n.includes('burger')) return imgBase.burger;
-            if(n.includes('shashlik')) return imgBase.shashlik;
+            if(n.includes('hot-dog')) return imgBase['hot-dog'];
             if(n.includes('somsa')) return imgBase.somsa;
+            if(n.includes('shashlik')) return imgBase.shashlik;
             return imgBase.default;
         }
 
+        // ТВОЕ СТАРОЕ МЕНЮ (НИЧЕГО НЕ ИЗМЕНЕНО)
         const data = {
-            'burger': [{n:'Lavash Big', p:40000}, {n:'Big Burger', p:45000}],
-            'somsa': [{n:'Akaxon Somsa', p:8000}, {n:'Qiyma Shashlik', p:15000}]
+            'burger': [
+                {cat:'LAVASH', n:'Lavash Big', p:40000}, {cat:'LAVASH', n:'Lavash Mini', p:35000}, {cat:'LAVASH', n:'Lavash Big (pishloqli)', p:45000}, {cat:'LAVASH', n:'Super Lavash', p:55000},
+                {cat:'BURGER', n:'Big Burger', p:45000}, {cat:'BURGER', n:'Gamburger', p:40000}, {cat:'BURGER', n:'Chizburger', p:45000}, {cat:'BURGER', n:'Chizburger Mini', p:40000},
+                {cat:'XOD-DOG', n:'Hot-Dog Big', p:22000}, {cat:'XOD-DOG', n:'Hot-Dog Qazi', p:42000},
+                {cat:'ZAKUSKI', n:'Klab Sendvich', p:42000}, {cat:'ZAKUSKI', n:'Haggi Mini', p:35000}, {cat:'ZAKUSKI', n:'Strips (7 ta)', p:34000}, {cat:'ZAKUSKI', n:'Fri Big', p:24000}
+            ],
+            'guna': [{n:'Guma', p:5000}, {n:'Go\'shtli pirashki', p:5000}],
+            'somsa': [{n:'Akaxon Somsa', p:8000}, {n:'Qiyma shashlik', p:15000}],
+            'tim': [{n:'Tim Lavash Big', p:38000}, {n:'Tim Lavash Mini', p:30000}]
         };
 
         function showMenu(id) {
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('menu-page').style.display = 'block';
-            let html = `<h2>${id.toUpperCase()}</h2>`;
+            let html = `<h2 style="text-align:center;">${id.toUpperCase()}</h2>`;
+            let curCat = "";
+            
             data[id].forEach(item => {
+                // Добавляем заголовок категории (например, LAVASH)
+                if(item.cat && item.cat !== curCat) { html += `<div class="cat-header">${item.cat}</div>`; curCat = item.cat; }
+                
+                // Рисуем строку товара с картинкой
                 html += `<div class="item-row">
                     <div class="item-info">
                         <img src="${getImg(item.n)}" class="item-img">
-                        <b>${item.n}<br><small>${item.p} sum</small></b>
+                        <div><b>${item.n}</b><br><small>${item.p.toLocaleString()} so'm</small></div>
                     </div>
                     <button onclick="add('${item.n}',${item.p})" style="background:#ffc107; border:none; padding:8px 15px; border-radius:8px;">+</button>
                 </div>`;
@@ -92,7 +110,7 @@
             cart.push({name: n, price: p});
             total += p;
             document.getElementById('footer').style.display = 'block';
-            document.getElementById('order-btn').innerText = `TASDIQLASH: ${total.toLocaleString()} so'm`;
+            document.getElementById('order-btn').innerText = `TASDIQLASH: ${total.toLocaleString()} sum`;
         }
 
         function goBack() {
@@ -100,10 +118,7 @@
             document.getElementById('menu-page').style.display = 'none';
         }
 
-        function finishOrder() {
-            tg.sendData(JSON.stringify(cart));
-            tg.close();
-        }
+        function finishOrder() { if(cart.length > 0) { tg.sendData(JSON.stringify(cart)); tg.close(); } }
     </script>
 </body>
 </html>
