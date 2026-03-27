@@ -12,11 +12,14 @@
         .card { position: relative; background-size: cover; background-position: center; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.15); cursor: pointer; height: 110px; display: flex; align-items: center; justify-content: center; border: 2px solid white; overflow: hidden; }
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); }
         .card b { position: relative; z-index: 1; color: white; text-shadow: 1px 1px 4px rgba(0,0,0,0.9); text-transform: uppercase; font-size: 0.8rem; }
+        
         .menu-page { display: none; background: white; border-radius: 15px; padding: 15px; min-height: 70vh; }
         .cat-header { background: #f8f9fa; padding: 8px; margin: 15px 0 5px 0; font-weight: bold; border-left: 4px solid #ffc107; color: #333; text-transform: uppercase; font-size: 0.75rem; }
+        
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .weight-controls { display: flex; align-items: center; gap: 10px; }
-        .btn-ctrl { background: #f0f0f0; border: none; padding: 5px 12px; border-radius: 5px; font-weight: bold; }
+        .item-info { display: flex; align-items: center; gap: 12px; }
+        .item-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; background: #f9f9f9; }
+        
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 1000; }
         .order-confirm { background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; }
     </style>
@@ -30,7 +33,7 @@
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg')" onclick="showMenu('guna')"><b>GUMA & PIRASHKI</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/grilled-chicken-legs-with-vegetables_23-2148189814.jpg')" onclick="showMenu('grill')"><b>GRILL & KFS</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg')" onclick="showMenu('somsa')"><b>AKAHON SOMSA</b></div>
-            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/oriental-shish-kebab-with-vegetables_140725-3843.jpg')" onclick="showMenu('milliy')"><b>MILLIY TAOMLAR</b></div>
+            <div class="card" style="background-image: url('https://img.freepik.com/free-photo/repairman-fixing-motorcycle-wheel_23-2148816223.jpg')" onclick="showMenu('moto')"><b>MOTO USTA👨‍🔧</b></div>
             <div class="card" style="background-color: #555;" onclick="sendCall('DORXONA')"><b>DORXONA</b></div>
             <div class="card" style="background-color: #555;" onclick="sendCall('MARKET')"><b>KUCHLIK MARKET</b></div>
         </div>
@@ -50,98 +53,82 @@
         tg.expand();
         let cart = [];
         let total = 0;
-        let tempWeights = {};
+
+        const imgBase = {
+            'lavash': 'https://img.freepik.com/free-photo/side-view-doner-kebab-with-veggies-white-sauce-pita-slice-tomatoes-lettuce-on-wooden-board_141793-4712.jpg',
+            'burger': 'https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg',
+            'hot-dog': 'https://img.freepik.com/free-photo/classic-hot-dog-with-mustard-ketchup_23-2148762744.jpg',
+            'somsa': 'https://img.freepik.com/free-photo/traditional-oriental-meat-pastries-samosa_114579-2720.jpg',
+            'pepsi': 'https://img.freepik.com/free-photo/aluminum-can-beverage-isolated_23-2148560155.jpg',
+            'moto': 'https://img.freepik.com/free-photo/tools-repair-motorcycles_23-2148816198.jpg',
+            'default': 'https://img.freepik.com/free-vector/vector-flat-food-icon_1284-43015.jpg'
+        };
+
+        function getImg(name) {
+            let n = name.toLowerCase();
+            if(n.includes('lavash')) return imgBase.lavash;
+            if(n.includes('burger')) return imgBase.burger;
+            if(n.includes('hot-dog')) return imgBase['hot-dog'];
+            if(n.includes('somsa')) return imgBase.somsa;
+            if(n.includes('pepsi')) return imgBase.pepsi;
+            if(n.includes('moto') || n.includes('usta')) return imgBase.moto;
+            return imgBase.default;
+        }
 
         const data = {
             'burger': [
-                {c:'LAVASH', n:'Lavash Big', p:40000}, {c:'LAVASH', n:'Lavash Mini', p:35000},
-                {c:'LAVASH', n:'Lavash Pishloqli Big', p:45000}, {c:'LAVASH', n:'Lavash Pishloqli Mini', p:40000},
-                {c:'LAVASH', n:'Super Lavash', p:55000},
-                {c:'BURGER', n:'Big Burger', p:45000}, {c:'BURGER', n:'Gamburger', p:40000},
-                {c:'BURGER', n:'Chizburger', p:45000}, {c:'BURGER', n:'Chizburger Mini', p:40000},
-                {c:'BURGER', n:'Chikinzinger', p:40000},
-                {c:'XOD-DOG', n:'Hot-Dog Big', p:22000}, {c:'XOD-DOG', n:'Hot-Dog Mini', p:18000},
-                {c:'XOD-DOG', n:'Hot-Dog Qazi', p:42000}, {c:'XOD-DOG', n:'Hot-Dog Assorti', p:33000},
-                {c:'DONAR/BOX', n:'Donar Box', p:56000}, {c:'DONAR/BOX', n:'Donar Big', p:40000}, {c:'DONAR/BOX', n:'Donar Mini', p:35000},
-                {c:'ZAKUSKI', n:'Klab Sendvich', p:42000}, {c:'ZAKUSKI', n:'Haggi Big', p:40000}, {c:'ZAKUSKI', n:'Haggi Mini', p:35000},
-                {c:'ZAKUSKI', n:'Strips (7 ta)', p:34000}, {c:'ZAKUSKI', n:'Strips (150g)', p:26000},
-                {c:'ZAKUSKI', n:'Naggets (8 ta)', p:23000}, {c:'ZAKUSKI', n:'Fri Big', p:24000}, {c:'ZAKUSKI', n:'Fri Mini', p:16000}
+                {c: 'LAVASH', n: 'Lavash Big', p: 40000}, {c: 'LAVASH', n: 'Lavash Mini', p: 35000},
+                {c: 'LAVASH', n: 'Lavash Pishloqli Big', p: 45000}, {c: 'LAVASH', n: 'Lavash Pishloqli Mini', p: 40000},
+                {c: 'LAVASH', n: 'Super Lavash', p: 55000},
+                {c: 'BURGER', n: 'Big Burger', p: 45000}, {c: 'BURGER', n: 'Gamburger', p: 40000},
+                {c: 'BURGER', n: 'Chizburger', p: 45000}, {c: 'BURGER', n: 'Chizburger Mini', p: 40000},
+                {c: 'BURGER', n: 'Chikinzinger', p: 40000},
+                {c: 'XOD-DOG', n: 'Hot-Dog Big', p: 22000}, {c: 'XOD-DOG', n: 'Hot-Dog Mini', p: 18000},
+                {c: 'XOD-DOG', n: 'Hot-Dog Qazi', p: 42000}, {c: 'XOD-DOG', n: 'Hot-Dog Assorti', p: 33000},
+                {c: 'DONAR/BOX', n: 'Donar Box', p: 56000}, {c: 'DONAR/BOX', n: 'Donar Big', p: 40000}, {c: 'DONAR/BOX', n: 'Donar Mini', p: 35000},
+                {c: 'ZAKUSKI', n: 'Klab Sendvich', p: 42000}, {c: 'ZAKUSKI', n: 'Haggi Big', p: 40000}, {c: 'ZAKUSKI', n: 'Haggi Mini', p: 35000},
+                {c: 'ZAKUSKI', n: 'Strips (7 ta)', p: 34000}, {c: 'ZAKUSKI', n: 'Strips (150g)', p: 26000},
+                {c: 'ZAKUSKI', n: 'Naggets (8 ta)', p: 23000}, {c: 'ZAKUSKI', n: 'Kartoshka Fri Big', p: 24000}, {c: 'ZAKUSKI', n: 'Kartoshka Fri Mini', p: 16000},
+                {c: 'ICHIMLIK', n: 'Pepsi 1.5L', p: 15000}, {c: 'ICHIMLIK', n: 'Pepsi 0.5L', p: 8000},
+                {c: 'ICHIMLIK', n: 'Sok 1L', p: 14000}, {c: 'ICHIMLIK', n: 'Kofe / Choy', p: 8000},
+                {c: 'SOUS', n: 'Sous / Mayonez', p: 3000}
             ],
-            'tim': [
-                {c:'LAVASH', n:'Lavash Big', p:35000}, {c:'LAVASH', n:'Lavash Mini', p:30000}, {c:'LAVASH', n:'Lavash Sir', p:37000},
-                {c:'DANAR', n:'Danar Big', p:32000}, {c:'DANAR', n:'Danar Mega', p:42000},
-                {c:'TIM', n:'Xagi', p:35000}, {c:'TIM', n:'Qazli Xodog', p:30000}, {c:'TIM', n:'Klab Sendvich', p:48000},
-                {c:'XOD-DOG', n:'Supr', p:25000}, {c:'XOD-DOG', n:'Mini', p:15000}, {c:'XOD-DOG', n:'Tim Xod-dog', p:29000},
-                {c:'ICHIMLIKLAR', n:'Koka Kola 0.5L', p:8000}, {c:'ICHIMLIKLAR', n:'Pepsi 0.5L', p:8000}, {c:'ICHIMLIKLAR', n:'Fanta 0.5L', p:8000},
-                {c:'ICHIMLIKLAR', n:'Koka Kola 1L', p:13000}, {c:'ICHIMLIKLAR', n:'Pepsi 1L', p:13000},
-                {c:'ICHIMLIKLAR', n:'Koka Kola 1.5L', p:17000}, {c:'ICHIMLIKLAR', n:'Pepsi 1.5L', p:17000}, {c:'ICHIMLIKLAR', n:'Fanta 1.5L', p:17000},
-                {c:'ICHIMLIKLAR', n:'Koka Kola 2L', p:23000}, {c:'ICHIMLIKLAR', n:'Please 2L', p:23000}, {c:'ICHIMLIKLAR', n:'Fanta 2L', p:23000},
-                {c:'ICHIMLIKLAR', n:'Sok 1L', p:15000}, {c:'ICHIMLIKLAR', n:'Fiusti 1L', p:13000}, {c:'ICHIMLIKLAR', n:'Lipton 1L', p:13000},
-                {c:'ENERGETIK', n:'Garila', p:14000}, {c:'ENERGETIK', n:'18+', p:14000}, {c:'ENERGETIK', n:'Flesh', p:13000}
-            ],
-            'somsa': [
-                {c:'SHASHLIK', n:'Qiyma', p:8000}, {c:'SHASHLIK', n:'Tovq', p:8000}, {c:'SHASHLIK', n:'Jigar', p:8000}, {c:'SHASHLIK', n:'Baliq', p:10000}, {c:'SHASHLIK', n:'Mol Jaz', p:15000}, {c:'SHASHLIK', n:'Qoy Jaz', p:16000},
-                {c:'SOMSA', n:'Qoy Goshli', p:18000}, {c:'SOMSA', n:'Mol Goshli', p:13000}, {c:'SOMSA', n:'Tovuq Goshli', p:8000}, {c:'SOMSA', n:'Kartoshkali', p:5000}
-            ],
-            'guna': [
-                {n:'Kartoshkali', p:4000}, {n:'Goshli', p:5000}, {n:'Guma', p:5000}, {n:'Sasiskali', p:5000}, {n:'Cheburek', p:8000}, {n:'Sirli', p:5000}, {n:'Karomli', p:4000}
-            ],
-            'grill': [
-                {n:'KOTA GRILL', p:65000}, {n:'ORTANCHA GRILL', p:55000}, {n:'KICHKINA GRILL', p:50000},
-                {n:'KFS (1kg)', p:100000, t:'w', min:300, step:100}
-            ],
-            'milliy': [{n:'1-apreldan ish boshlaydi', p:0}]
+            'tim': [{c:'LAVASH', n:'Lavash Big', p:35000}, {c:'LAVASH', n:'Lavash Mini', p:30000}],
+            'somsa': [{c:'SOMSA', n:'Qoy Goshli somsa', p:18000}, {c:'SHASHLIK', n:'Mol Jaz shashlik', p:15000}],
+            'guna': [{n:'Guma', p:5000}, {n:'Go\'shtli pirashki', p:5000}],
+            'grill': [{n:'KOTA GRILL', p:65000}, {n:'KFS (1kg)', p:100000}],
+            'moto': [
+                {c:'XIZMAT', n:'Karburator sozlash', p:25000}, 
+                {c:'XIZMAT', n:'Elektrika tuzatish', p:40000},
+                {c:'XIZMAT', n:'Moy almashtirish', p:10000}
+            ]
         };
 
         function showMenu(id) {
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('menu-page').style.display = 'block';
-            let titles = {'burger':'BURGER PRO','tim':'TIM LAVASH','somsa':'AKAHON SOMSA','guna':'GUMA & PIRASHKI','grill':'GRILL & KFS','milliy':'MILLIY TAOMLAR'};
+            let titles = {'burger':'BURGER PRO','tim':'TIM LAVASH','somsa':'AKAHON SOMSA','guna':'GUMA & PIRASHKI','grill':'GRILL & KFS','moto':'MOTO USTA👨‍🔧'};
             let html = `<h2 style="text-align:center;">${titles[id]}</h2>`;
             let curCat = "";
-            data[id].forEach((item, idx) => {
+            
+            data[id].forEach(item => {
                 if(item.c && item.c !== curCat) { html += `<div class="cat-header">${item.c}</div>`; curCat = item.c; }
-                if(item.t === 'w') {
-                    let w = tempWeights[item.n] || item.min;
-                    tempWeights[item.n] = w;
-                    html += `<div class="item-row">
-                        <div><b>${item.n}</b><br><small id="p-${idx}">${(item.p * w / 1000).toLocaleString()} sum</small></div>
-                        <div class="weight-controls">
-                            <button class="btn-ctrl" onclick="chW('${id}',${idx},-1)">-</button>
-                            <b id="w-${idx}">${w}g</b>
-                            <button class="btn-ctrl" onclick="chW('${id}',${idx},1)">+</button>
-                            <button onclick="addW('${id}',${idx})" style="background:#2e7d32; color:white; border:none; padding:8px; border-radius:5px;">OK</button>
-                        </div></div>`;
-                } else {
-                    html += `<div class="item-row">
+                html += `<div class="item-row">
+                    <div class="item-info">
+                        <img src="${getImg(item.n)}" class="item-img">
                         <div><b>${item.n}</b><br><small>${item.p.toLocaleString()} sum</small></div>
-                        <button onclick="add('${item.n}',${item.p})" style="background:#ffc107; border:none; padding:8px 20px; border-radius:8px; font-weight:bold;">+</button>
-                    </div>`;
-                }
+                    </div>
+                    <button onclick="add('${item.n}',${item.p})" style="background:#ffc107; border:none; padding:10px 18px; border-radius:10px; font-weight:bold;">+</button>
+                </div>`;
             });
             document.getElementById('menu-content').innerHTML = html;
-        }
-
-        function chW(id, idx, dir) {
-            let item = data[id][idx];
-            let next = (tempWeights[item.n] || item.min) + (dir * item.step);
-            if(next >= item.min) {
-                tempWeights[item.n] = next;
-                document.getElementById(`w-${idx}`).innerText = next + "g";
-                document.getElementById(`p-${idx}`).innerText = (item.p * next / 1000).toLocaleString() + " sum";
-            }
-        }
-
-        function addW(id, idx) {
-            let item = data[id][idx];
-            add(`${item.n} (${tempWeights[item.n]}g)`, (item.p * tempWeights[item.n] / 1000));
         }
 
         function add(n, p) {
             cart.push({name: n, price: p});
             total += p;
             document.getElementById('footer').style.display = 'block';
-            document.getElementById('order-btn').innerText = `TASDIQLASH: ${total.toLocaleString()} so'm`;
+            document.getElementById('order-btn').innerText = `TASDIQLASH: ${total.toLocaleString()} sum`;
             tg.HapticFeedback.impactOccurred('light');
         }
 
@@ -154,10 +141,8 @@
 
         function finishOrder() {
             if (cart.length > 0) {
-                // Превращаем корзину в строку и отправляем боту
                 tg.sendData(JSON.stringify(cart));
-            } else {
-                alert("Savat bo'sh!");
+                tg.close();
             }
         }
 
