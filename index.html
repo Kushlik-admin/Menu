@@ -6,23 +6,29 @@
     <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; margin: 0; padding: 10px; padding-bottom: 120px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { position: relative; height: 110px; border-radius: 15px; background-size: cover; background-position: center; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
-        .card b { position: relative; z-index: 1; text-align: center; font-size: 0.8rem; text-transform: uppercase; }
-        .menu-page { display: none; background: white; border-radius: 20px; padding: 15px; min-height: 85vh; }
-        .item-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .cat-h { background: #f8f9fa; padding: 6px 12px; font-weight: bold; font-size: 0.7rem; margin-top: 12px; border-radius: 6px; color: #333; border-left: 4px solid #ffc107; }
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 1000; }
-        .btn-group { display: flex; gap: 10px; }
-        .btn-add { flex: 1; background: #ff9800; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
-        .btn-go { flex: 1; background: #2e7d32; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
-        .w-ctrl { display: flex; align-items: center; gap: 10px; background: #f0f0f0; padding: 5px; border-radius: 10px; }
-        .w-btn { width: 30px; height: 30px; border: none; border-radius: 50%; background: #fff; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 10px; padding-bottom: 140px; }
+        .header-info { background: #fff; padding: 12px; border-radius: 15px; margin-bottom: 10px; text-align: center; border: 1px solid #ddd; font-size: 0.8rem; font-weight: bold; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .promo-banner { background: linear-gradient(90deg, #ff416c, #ff4b2b); color: white; padding: 12px; border-radius: 15px; text-align: center; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { position: relative; height: 120px; border-radius: 20px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; overflow: hidden; border: 2px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+        .card b { position: relative; z-index: 1; text-align: center; font-size: 0.85rem; padding: 0 5px; }
+        .menu-page { display: none; background: white; border-radius: 25px; padding: 20px; min-height: 80vh; }
+        .item-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .cat-h { background: #f8f9fa; padding: 6px 12px; font-weight: bold; font-size: 0.75rem; margin-top: 15px; border-radius: 8px; color: #555; border-left: 4px solid #ffc107; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; border-top-left-radius: 25px; border-top-right-radius: 25px; box-shadow: 0 -10px 25px rgba(0,0,0,0.1); display: none; z-index: 1000; }
+        .btn-go { width: 100%; background: #28a745; color: white; border: none; padding: 18px; border-radius: 18px; font-weight: bold; font-size: 1.1rem; }
+        .w-ctrl { display: flex; align-items: center; gap: 8px; background: #f0f0f0; padding: 5px; border-radius: 12px; }
     </style>
 </head>
 <body>
+    <div class="header-info">
+        YETKAZIB OLIB KEBERISH XIZMATI MAVJUD<br>
+        ALOQA UCHUN NOMER: <a href="tel:+998910065357" style="color:#ff4b2b; text-decoration:none;">+998 (91) 006-53-57</a>
+    </div>
+
+    <div class="promo-banner">🎁 BIRINCHI 3 TA DOSTAVKA BEPUL!</div>
+    
     <div id="main">
         <div class="grid">
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg')" onclick="openMenu('burger')"><b>BURGER PRO</b></div>
@@ -31,62 +37,38 @@
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/uzbek-food-dumplings_144627-11105.jpg')" onclick="openMenu('guma')"><b>GUMA & PIRASHKI</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/grilled-chicken-legs-with-vegetables_23-2148189814.jpg')" onclick="openMenu('grill')"><b>GRILL & KFS</b></div>
             <div class="card" style="background-image: url('https://img.freepik.com/free-photo/pills-blister-packs-tablets-vitamins_23-2148894215.jpg')" onclick="openMenu('dorxona')"><b>DORXONA 🏥</b></div>
-            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=500')" onclick="openMenu('moto')"><b>MOTO USTA 👨‍🔧</b></div>
+            <div class="card" style="background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=400')" onclick="openMenu('moto')"><b>MOTO USTA 👨‍🔧</b></div>
         </div>
     </div>
 
     <div id="menu" class="menu-page">
-        <button onclick="back()" style="width:100%; padding:12px; margin-bottom:15px; border:none; border-radius:12px; background:#eee; font-weight:bold;">🔙 ORQAGA</button>
+        <button onclick="back()" style="width:100%; padding:12px; background:#f0f0f0; border:none; border-radius:12px; margin-bottom:15px; font-weight:bold;">⬅ ORQAGA</button>
         <div id="content"></div>
     </div>
 
     <div class="footer" id="footer">
-        <div class="btn-group">
-            <button class="btn-add" onclick="back()">➕ YANA QO'SHISH</button>
-            <button class="btn-go" id="total-btn" onclick="order()">BUYURTMA BERISH</button>
-        </div>
+        <button class="btn-go" id="total-btn" onclick="order()">TASDIQLASH</button>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
-        let cart = [];
-        let total = 0;
-        let kfsW = 300;
+        let cart = []; let total = 0; let kfsW = 300;
 
         const db = {
-            'burger': { id: "6680569613", loc: "41.003, 69.234", items: [
-                {c:'LAVASH', n:'Lavash Big', p:40000}, {c:'LAVASH', n:'Lavash Mini', p:35000}, {c:'LAVASH (pishloqli)', n:'Lavash Big', p:45000}, {c:'LAVASH (pishloqli)', n:'Lavash Mini', p:40000}, {c:'LAVASH', n:'Super Lavash', p:55000},
-                {c:'BURGER', n:'Big Burger', p:45000}, {c:'BURGER', n:'Gamburger', p:40000}, {c:'BURGER', n:'Chizburger', p:45000}, {c:'BURGER', n:'Chizburger Mini', p:40000}, {c:'BURGER', n:'Chikinzinger', p:40000},
-                {c:'DONAR', n:'Donar (mol go\'shtli)', p:40000}, {c:'DONAR', n:'Donar Mini', p:35000}, {c:'DONAR', n:'Donar Box', p:56000},
-                {c:'HOT-DOG', n:'Hot-Dog', p:22000}, {c:'HOT-DOG', n:'Hot-Dog Mini', p:18000}, {c:'HOT-DOG', n:'Hot-Dog Qazi', p:42000}, {c:'HOT-DOG', n:'Hot-Dog Assorti', p:33000},
-                {c:'SANDVICH', n:'Klab Sendvich', p:42000}, {c:'SANDVICH', n:'Haggi', p:40000}, {c:'SANDVICH', n:'Haggi Mini', p:35000},
-                {c:'ZAKUSKI', n:'Kartoshka Fri', p:24000}, {c:'ZAKUSKI', n:'Kartoshka Fri Mini', p:16000}, {c:'ZAKUSKI', n:'Stripslar (150 gr)', p:26000}, {c:'ZAKUSKI', n:'Strips (7 ta 200 gr)', p:34000}, {c:'ZAKUSKI', n:'Naggets (8 ta 100 gr)', p:23000},
-                {c:'ISSIQ ICHIMLIKLAR', n:'Choy', p:0}, {c:'ISSIQ ICHIMLIKLAR', n:'Choy (limon)', p:8000}, {c:'ISSIQ ICHIMLIKLAR', n:'Kofe (qora)', p:5000}, {c:'ISSIQ ICHIMLIKLAR', n:'Kofe (3/1)', p:8000},
-                {c:'SALQIN ICHIMLIKLAR', n:'Suv 0.5', p:5000}, {c:'SALQIN ICHIMLIKLAR', n:'Sok kichkina', p:5000}, {c:'SALQIN ICHIMLIKLAR', n:'Sok 1L', p:14000},
-                {c:'PEPSI', n:'Pepsi 0.5', p:8000}, {c:'PEPSI', n:'Pepsi 1L', p:11000}, {c:'PEPSI', n:'Pepsi 1.5L', p:15000},
-                {c:'COCA-COLA', n:'Coca-Cola 0.5', p:8000}, {c:'COCA-COLA', n:'Coca-Cola 1L', p:11000}, {c:'COCA-COLA', n:'Coca-Cola 1.5L', p:15000}
+            'burger': { id: "6680569613", items: [
+                {c:'LAVASH', n:'Lavash Big', p:40000}, {c:'LAVASH', n:'Lavash Mini', p:35000}, {c:'LAVASH (Pishloqli)', n:'Lavash Big', p:45000}, {c:'BURGER', n:'Big Burger', p:45000}, {c:'DONAR', n:'Donar Box', p:56000}, {c:'HOT-DOG', n:'Hot-Dog Qazi', p:42000}, {c:'ICHIMLIKLAR', n:'Pepsi 1.5L', p:15000}
             ]},
-            'tim': { id: "6945087548", loc: "41.002555, 69.233649", items: [
-                {c:'LAVASH', n:'BIG', p:35000}, {c:'LAVASH', n:'MINI', p:30000}, {c:'LAVASH', n:'SIR', p:37000},
-                {c:'DANAR', n:'BIG', p:32000}, {c:'DANAR', n:'MEGA', p:42000},
-                {c:'TIM', n:'XAGI', p:35000}, {c:'TIM', n:'QAZLI XODOG', p:30000}, {c:'TIM', n:'Klab Sendvich', p:48000},
-                {c:'XOD-DOG', n:'SUPER', p:25000}, {c:'XOD-DOG', n:'MINI', p:15000}, {c:'XOD-DOG', n:'TIM XOD-DOG', p:29000},
-                {c:'ICHIMLIKLAR', n:'KOKA Kola 0.5L', p:8000}, {c:'ICHIMLIKLAR', n:'PEPSI 0.5L', p:8000}, {c:'ICHIMLIKLAR', n:'FANTA 0.5L', p:8000},
-                {c:'ICHIMLIKLAR', n:'KOKA KOLA 1L', p:13000}, {c:'ICHIMLIKLAR', n:'PEPSI 1L', p:13000}, {c:'ICHIMLIKLAR', n:'KOKA KOLA 1.5L', p:17000},
-                {c:'ICHIMLIKLAR', n:'PEPSI 1.5L', p:17000}, {c:'ICHIMLIKLAR', n:'FANTA 1.5L', p:17000}, {c:'ICHIMLIKLAR', n:'KOKA KOLA 2L', p:23000},
-                {c:'ICHIMLIKLAR', n:'PLEASE 2L', p:23000}, {c:'ICHIMLIKLAR', n:'FANTA 2L', p:23000}, {c:'ICHIMLIKLAR', n:'Sok 1L', p:15000},
-                {c:'ICHIMLIKLAR', n:'FIUSTI 1L', p:13000}, {c:'ICHIMLIKLAR', n:'LIPTON 1L', p:13000}, {c:'ICHIMLIKLAR', n:'Garila', p:14000},
-                {c:'ICHIMLIKLAR', n:'18+', p:14000}, {c:'ICHIMLIKLAR', n:'Flesh', p:13000}
+            'tim': { id: "6945087548", items: [
+                {c:'LAVASH', n:'BIG', p:35000}, {c:'LAVASH', n:'MINI', p:30000}, {c:'LAVASH', n:'SIR', p:37000}, {c:'TIM', n:'XAGI', p:35000}, {c:'XOD-DOG', n:'TIM XOD-DOG', p:29000}, {c:'ICHIMLIKLAR', n:'PEPSI 1.5L', p:17000}, {c:'ICHIMLIKLAR', n:'Sok 1L', p:15000}
             ]},
             'somsa': { id: "8474161465", loc: "41.003998, 69.235951", items: [
-                {c:'SHASHLIK', n:'QIYMA', p:8000}, {c:'SHASHLIK', n:'TOVQ', p:8000}, {c:'SHASHLIK', n:'JIGAR', p:8000}, {c:'SHASHLIK', n:'BALIQ', p:10000}, {c:'SHASHLIK', n:'MOL JAZ', p:15000}, {c:'SHASHLIK', n:'QÕY JAZ', p:16000},
-                {c:'SOMSA', n:'QÕY GOSHLI', p:18000}, {c:'SOMSA', n:'MOL GOSHLI', p:13000}, {c:'SOMSA', n:'TOVUQ GOSHLI', p:8000}, {c:'SOMSA', n:'KARTOSHKALI', p:5000}
+                {c:'SHASHLIK', n:'QIYMA', p:8000}, {c:'SHASHLIK', n:'MOL JAZ', p:15000}, {c:'SOMSA', n:'QOY GOSHLI', p:18000}, {c:'SOMSA', n:'MOL GOSHLI', p:13000}
             ]},
             'guma': { id: "8626123558", loc: "41.004533, 69.237082", items: [
-                {n:'KARTOSHKALI', p:4000}, {n:'GOSHLI', p:5000}, {n:'GUMA', p:5000}, {n:'SASISKALI', p:5000}, {n:'CHEBUREK', p:8000}, {n:'SIRLI', p:5000}, {n:'KAROMLI', p:4000}
+                {n:'GOSHLI', p:5000}, {n:'GUMA', p:5000}, {n:'CHEBUREK', p:8000}
             ]},
-            'grill': { id: "8626123558", loc: "41.004533, 69.237082", items: [
-                {n:'KOTA GRILL', p:60000}, {n:'ORTANCHA GRIL', p:55000}, {n:'KICHKINA GRIL', p:50000}, {n:'KFS (300g dan boshlab)', p:30000, type: 'kfs', base: 100000}
+            'grill': { id: "8626123558", items: [
+                {n:'KOTA GRILL', p:60000}, {n:'KFS (1 kg)', p:100000, type:'kfs'}
             ]}
         };
 
@@ -95,19 +77,18 @@
             document.getElementById('menu').style.display = 'block';
             let cont = document.getElementById('content');
             if(key === 'dorxona') {
-                cont.innerHTML = `<h3>🏥 DORXONA</h3><p>MUROJAT UCHUN NOMER: <b>+998909299461</b></p><button onclick="spec('🏥 DORXONA','41.004453, 69.237157')">MANZILNI OLISH</button>`;
+                cont.innerHTML = `<h3>🏥 DORXONA</h3><p>ALOQA: +998909299461</p><button onclick="window.open('https://yandex.uz/maps/?pt=69.237157,41.004453&z=16&l=map','_blank')" style="background:#e91e63; color:white; padding:15px; border:none; border-radius:12px;">📍 YANDEX KARTA</button>`;
             } else if(key === 'moto') {
-                cont.innerHTML = `<h3>👨‍🔧 MOTO USTA</h3><p>Moy almashtirish, Elektrika, Motor tuzatish.</p><p>MUROJAT UCHUN NOMER: <b>+99890XXXXXXX</b></p><button onclick="spec('👨‍🔧 MOTO USTA','41.017336, 69.232820')">MANZILNI OLISH</button>`;
+                cont.innerHTML = `<h3>👨‍🔧 MOTO USTA</h3><p>Moy, Motor, Karbyurator.</p><button onclick="window.open('https://yandex.uz/maps/?pt=69.232820,41.017336&z=16&l=map','_blank')" style="background:#ff9800; color:white; padding:15px; border:none; border-radius:12px;">📍 MANZIL (Yandex)</button>`;
             } else {
-                let html = `<h2>${key.toUpperCase()}</h2>`;
-                let cat = "";
+                let html = `<h2>${key.toUpperCase()}</h2>`; let cat = "";
                 db[key].items.forEach(i => {
                     if(i.c && i.c !== cat) { html += `<div class="cat-h">${i.c}</div>`; cat = i.c; }
-                    html += `<div class="item-row"><span><b>${i.n}</b><br>${i.p.toLocaleString()} sum</span>`;
+                    html += `<div class="item-row"><span>${i.n}<br><b>${i.p.toLocaleString()} sum</b></span>`;
                     if(i.type === 'kfs') {
-                        html += `<div class="w-ctrl"><button class="w-btn" onclick="chW(-50)">-</button><b id="wv">${kfsW}g</b><button class="w-btn" onclick="chW(50)">+</button><b id="kp">${(100000*kfsW/1000).toLocaleString()} sum</b><button onclick="addKFS()" style="background:#2e7d32; color:white; border:none; padding:5px; border-radius:5px;">OK</button></div>`;
+                        html += `<div class="w-ctrl"><button onclick="chW(-50)">-</button><b id="wv">${kfsW}g</b><button onclick="chW(50)">+</button><button onclick="addKFS()" style="background:#28a745; color:white; border:none; border-radius:8px; padding:5px;">OK</button></div>`;
                     } else {
-                        html += `<button onclick="add('${i.n}',${i.p},'${key}')" style="background:#ffc107; border:none; border-radius:8px; width:40px; height:40px; font-weight:bold;">+</button>`;
+                        html += `<button onclick="add('${i.n}',${i.p},'${key}')" style="background:#ffc107; border:none; width:45px; height:45px; border-radius:12px; font-weight:bold;">+</button>`;
                     }
                     html += `</div>`;
                 });
@@ -115,24 +96,15 @@
             }
         }
 
-        function chW(v) { 
-            kfsW = Math.max(300, kfsW + v); 
-            document.getElementById('wv').innerText = kfsW + 'g';
-            document.getElementById('kp').innerText = ((100000 * kfsW) / 1000).toLocaleString() + ' sum';
-        }
-        function addKFS() { let p = (100000 * kfsW)/1000; add('KFS '+kfsW+'g', p, 'grill'); }
-
+        function chW(v) { kfsW = Math.max(300, kfsW + v); document.getElementById('wv').innerText = kfsW + 'g'; }
+        function addKFS() { add('KFS '+kfsW+'g', (100000*kfsW)/1000, 'grill'); }
         function add(n, p, r) {
-            cart.push({n, p, r, cook: db[r].id, loc: db[r].loc});
-            total += p;
+            cart.push({n, p, cook: db[r].id}); total += p;
             document.getElementById('footer').style.display = 'block';
             document.getElementById('total-btn').innerText = `TASDIQLASH: ${total.toLocaleString()} sum`;
-            tg.HapticFeedback.impactOccurred('medium');
         }
-
         function back() { document.getElementById('main').style.display = 'block'; document.getElementById('menu').style.display = 'none'; }
         function order() { tg.sendData(JSON.stringify({a: "order", cart, total})); tg.close(); }
-        function spec(t, l) { tg.sendData(JSON.stringify({a: "special", t, l})); tg.close(); }
     </script>
 </body>
 </html>
