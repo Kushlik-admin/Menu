@@ -3,105 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KUSHLIK MULTI-APP</title>
+    <title>KUSHLIK DELIVERY</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --p: #ff4757; --s: #2ed573; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f1f2f6; margin: 0; padding-bottom: 120px; }
-        .header { background: var(--p); color: white; padding: 15px; text-align: center; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-        .card { background: white; border-radius: 12px; padding: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-weight: bold; }
-        .menu-page { display: none; padding: 15px; }
-        .item { background: white; margin-bottom: 10px; padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .controls button { background: var(--s); color: white; border: none; width: 30px; height: 30px; border-radius: 5px; font-weight: bold; }
-        .cart-footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; border-top: 2px solid #ddd; display: none; box-sizing: border-box; }
-        .btn-main { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; margin-bottom: 5px; }
-        .btn-order { background: var(--s); color: white; }
-        .btn-clear { background: #ffa502; color: white; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 10px; padding-bottom: 180px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: #fff; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-weight: bold; border: 2px solid #eee; }
+        .menu-page { display: none; background: white; border-radius: 20px; padding: 15px; min-height: 80vh; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .cat-h { background: #f8f9fa; padding: 5px 10px; font-weight: bold; font-size: 0.75rem; margin-top: 10px; color: #555; border-left: 4px solid #ffc107; }
+        .cart-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; border-top: 2px solid #ddd; display: none; z-index: 1000; }
+        .btn-green { width: 100%; background: #28a745; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; margin-bottom: 8px; }
+        .btn-orange { width: 100%; background: #ff9f43; color: white; border: none; padding: 10px; border-radius: 12px; }
     </style>
 </head>
 <body>
-    <div class="header" id="title">KUSHLIK DELIVERY</div>
-
     <div id="main-grid" class="grid">
-        <div class="card" onclick="openMenu('TIM')">TIM LAVASH</div>
-        <div class="card" onclick="openMenu('GUMA')">GUMA & PIRASHKI</div>
-        <div class="card" onclick="openMenu('GRILL')">GRILL</div>
-        <div class="card" onclick="openMenu('SOMSA')">AKAHON SOMSA</div>
-        <div class="card" onclick="openMenu('BURGER')">BURGER PRO</div>
+        <div class="card" onclick="openMenu('tim')">TIM LAVASH</div>
+        <div class="card" onclick="openMenu('burger')">BURGER PRO</div>
+        <div class="card" onclick="openMenu('somsa')">AKAHON SOMSA</div>
+        <div class="card" onclick="openMenu('guma')">GUMA & PIRASHKI</div>
+        <div class="card" onclick="openMenu('grill')">GRILL</div>
     </div>
 
     <div id="menu-view" class="menu-page">
-        <button onclick="goBack()" style="margin-bottom:15px;">⬅ Назад</button>
-        <div id="items-list"></div>
+        <button onclick="goBack()" style="width:100%; padding:10px; margin-bottom:10px;">⬅ ORQAGA</button>
+        <div id="content"></div>
     </div>
 
     <div class="cart-footer" id="cart-ui">
-        <div id="summary" style="margin-bottom: 10px; font-weight: bold;">Итого: 0 сум</div>
-        <button class="btn-main btn-order" onclick="submitOrder()">ОФОРМИТЬ ЗАКАЗ</button>
-        <button class="btn-main btn-clear" onclick="clearCart()">ОЧИСТИТЬ КОРЗИНУ</button>
+        <div id="total-price" style="margin-bottom:10px; font-weight:bold; font-size:1.1rem;"></div>
+        <button class="btn-green" onclick="sendOrder()">OFORMLENIYA ZAKAZ</button>
+        <button class="btn-orange" onclick="clearCart()">KORZINANI TOZALASH</button>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
-        let cart = {}; let currentRest = "";
-        
-        const menuData = {
-            'TIM': { items: [{n:'Lavash Big',p:35000},{n:'Lavash Mini',p:30000},{n:'Danar Mega',p:42000},{n:'Pepsi 0.5',p:8000},{n:'18+',p:14000}]},
-            'GUMA': { items: [{n:'Kartoshkali',p:4000},{n:'Goshli',p:5000},{n:'Cheburek',p:8000}]},
-            'GRILL': { items: [{n:'KFS (Цена за 1кг)',p:100000, type:'weight'},{n:'Kota Grill',p:60000}]},
-            'SOMSA': { items: [{n:'Qiyma Shashlik',p:8000},{n:'Qoy Goshli Somsa',p:18000}]},
-            'BURGER': { items: [{n:'Big Burger',p:45000},{n:'Gamburger',p:40000},{n:'Coca-Cola 0.5',p:8000}]}
+        let cart = []; let total = 0;
+        const db = {
+            'tim': { id: "6945087548", items: [
+                {c:'LAVASH', n:'BIG', p:35000}, {c:'LAVASH', n:'MINI', p:30000}, {c:'DANAR', n:'MEGA', p:42000},
+                {c:'ICHIMLIK', n:'PEPSI 1.5L', p:17000}, {c:'ICHIMLIK', n:'18+', p:14000}, {c:'ICHIMLIK', n:'Garila', p:14000}
+            ]},
+            'burger': { id: "8626123558", items: [
+                {c:'BURGER', n:'Big Burger', p:45000}, {c:'BURGER', n:'Gamburger', p:40000}, {c:'LAVASH', n:'Super Lavash', p:55000},
+                {c:'ICHIMLIK', n:'Choy', p:0}, {c:'ICHIMLIK', n:'Kofe (3v1)', p:8000}
+            ]},
+            'grill': { id: "8626123558", items: [
+                {n:'KOTA GRILL', p:60000}, {n:'KFS (1kg)', p:100000, type:'w'}
+            ]},
+            'somsa': { id: "8474161465", items: [
+                {n:'QIYMA SHASHLIK', p:8000}, {n:'QOY GOSHLI SOMSA', p:18000}
+            ]},
+            'guma': { id: "8626123558", items: [
+                {n:'KARTOSHKALI', p:4000}, {n:'CHEBUREK', p:8000}
+            ]}
         };
 
-        function openMenu(id) {
-            currentRest = id;
+        function openMenu(key) {
             document.getElementById('main-grid').style.display = 'none';
             document.getElementById('menu-view').style.display = 'block';
-            renderItems(id);
-        }
-
-        function renderItems(id) {
-            let html = '';
-            menuData[id].items.forEach(item => {
-                let qty = cart[item.n] ? cart[item.n].q : 0;
-                html += `<div class="item">
-                    <div><b>${item.n}</b><br><small>${item.p} сум</small></div>
-                    <div class="controls">
-                        <button onclick="changeQty('${item.n}', ${item.p}, -1, '${item.type||''}')">-</button>
-                        <span id="q-${item.n}">${item.type==='weight' ? (qty*1000||0)+'г' : qty}</span>
-                        <button onclick="changeQty('${item.n}', ${item.p}, 1, '${item.type||''}')">+</button>
-                    </div>
-                </div>`;
+            let html = `<h2>${key.toUpperCase()}</h2>`; let cat = "";
+            db[key].items.forEach(i => {
+                if(i.c && i.c !== cat) { html += `<div class="cat-h">${i.c}</div>`; cat = i.c; }
+                html += `<div class="item-row"><span>${i.n}<br><b>${i.p}</b></span>
+                <button onclick="add('${i.n}',${i.p},'${key}')" style="padding:10px 15px; background:#28a745; color:white; border:none; border-radius:8px;">+</button></div>`;
             });
-            document.getElementById('items-list').innerHTML = html;
+            document.getElementById('content').innerHTML = html;
         }
 
-        function changeQty(name, price, delta, type) {
-            if(!cart[name]) cart[name] = {q:0, p:price};
-            if(type === 'weight') {
-                cart[name].q = Math.max(0, cart[name].q + (delta * 0.1)); // Шаг 100гр
-                if(cart[name].q > 0 && cart[name].q < 0.3) cart[name].q = 0.3; // Минимум 300гр
-            } else {
-                cart[name].q = Math.max(0, cart[name].q + delta);
-            }
-            updateCart();
-            renderItems(currentRest);
+        function add(n, p, r) {
+            cart.push({n, p, r: r, cook: db[r].id}); total += p;
+            document.getElementById('cart-ui').style.display = 'block';
+            document.getElementById('total-price').innerText = `JAMI: ${total.toLocaleString()} SUM`;
         }
 
-        function updateCart() {
-            let total = 0;
-            for(let k in cart) total += cart[k].q * cart[k].p;
-            document.getElementById('summary').innerText = `Итого: ${Math.round(total)} сум`;
-            document.getElementById('cart-ui').style.display = total > 0 ? 'block' : 'none';
-        }
-
-        function clearCart() { cart = {}; updateCart(); renderItems(currentRest); }
+        function clearCart() { cart = []; total = 0; document.getElementById('cart-ui').style.display = 'none'; }
         function goBack() { document.getElementById('main-grid').style.display = 'grid'; document.getElementById('menu-view').style.display = 'none'; }
-        
-        function submitOrder() {
-            tg.sendData(JSON.stringify({cart, restaurant: currentRest}));
-        }
+        function sendOrder() { tg.sendData(JSON.stringify({cart, total})); tg.close(); }
     </script>
 </body>
 </html>
